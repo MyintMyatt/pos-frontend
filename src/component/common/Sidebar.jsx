@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
-import { routesConfig } from "../config/routeConfig";
+
 import { Menu } from "lucide-react";
 
-const SideBar = () => {
+const SideBar = ({navs,role}) => {
   const [collapsed, setCollapsed] = useState(false);
   
 
@@ -29,7 +29,7 @@ const SideBar = () => {
           <div className="flex flex-col gap-2">
             <h2 className="font-bold text-xl">POS System</h2>
             <span className="text-xs text-black bg-gray-300 w-fit px-1 py-0.5 rounded-xl">
-              super admin
+              {role}
             </span>
           </div>
         )}
@@ -41,10 +41,11 @@ const SideBar = () => {
         </button>
       </div>
       <nav className="flex-1 mt-4 space-y-2 px-2">
-        {routesConfig.map((link) => (
+        {navs.map((link) => (
           <NavLink
             key={link.name}
             to={link.path}
+            end={link.path === "/admin" || "/cashier"}  
             className={({ isActive }) =>
           `flex items-center ${collapsed && `justify-center` } gap-3 p-2 rounded-lg transition ${
                 isActive
