@@ -5,6 +5,7 @@ import {
   Warehouse,
   BadgeDollarSign,
   Sparkles,
+  LucideMenuSquare,
 } from "lucide-react";
 
 export const admin_navs = [
@@ -45,8 +46,8 @@ export const cashier_navs = [
     {
     name: "Sales",
     path: "/cashier",
-    title: "Sales Reports",
-    icon: <Sparkles />,
+    title: "Sales",
+    icon: <LucideMenuSquare />,
   },
   {
     name: "Sales History",
