@@ -22,7 +22,7 @@ const Dropdown = forwardRef(({ placeholder, props,onChange, items=[]}, ref) => {
     <>
       <button
         onClick={handleCollapse}
-        className={`border border-slate-900 rounded-md w-fit cursor-pointer`}
+        className={`  border border-slate-900 rounded-md w-fit cursor-pointer`}
         
         {...props}
       >
