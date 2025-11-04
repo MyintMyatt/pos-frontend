@@ -1,6 +1,14 @@
 import { createBrowserRouter } from "react-router-dom";
 import AdminLayout from "../layout/AdminLayout";
-import { Home, Inventory, Menu, NotFound, Sales, SalesHistory, User } from "../constant/LazyLoad";
+import {
+  Home,
+  Inventory,
+  Menu,
+  NotFound,
+  Sales,
+  SalesHistory,
+  User,
+} from "../constant/LazyLoad";
 import CashierLayout from "../layout/CashierLayout";
 
 const router = createBrowserRouter([
@@ -9,7 +17,8 @@ const router = createBrowserRouter([
     path: "/cashier",
     errorElement: <NotFound />,
     children: [
-      { element: <Sales />, index: true } ,{ element: <SalesHistory />, path: "sales-history" },
+      { element: <Sales />, index: true },
+      { element: <SalesHistory />, path: "sales-history" },
     ],
   },
   {

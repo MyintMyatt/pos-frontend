@@ -10,7 +10,7 @@ export const User = PageLoader(lazy(() => import("@/features/admin/user/pages/Us
 export const Menu = PageLoader(lazy(() => import("@/features/admin/user/pages/Menu")));
 export const Inventory = PageLoader(lazy(() => import("@/features/admin/user/pages/Inventory")));
 export const SalesHistory =PageLoader( lazy(() => import("@/features/admin/user/pages/SaleHistory")))
-export const NotFound= PageLoader( lazy(() => import("@/component/NotFound")));
+export const NotFound= PageLoader( lazy(() => import("@/component/common/NotFound")));
 export const Sales=PageLoader(lazy(()=>import("@/features/sales&payment/pages/Sales")))
 
 

@@ -46,7 +46,7 @@ export const cashier_navs = [
     {
     name: "Sales",
     path: "/cashier",
-    title: "Sales",
+    title: "Sale Page",
     icon: <LucideMenuSquare />,
   },
   {

@@ -1,10 +1,26 @@
 import React from 'react'
+import { getDate } from '../../../utils/getCurrentDate'
+import CartItem from './CartItem';
+import { useSelector } from 'react-redux';
+
 
 const Cart = () => {
-  return (
-    <div className=' bg-gray-400 h-full'>
+  const cartItems=useSelector((state)=>state.cart.products)
 
-CART
+ const date=getDate();
+ console.log(cartItems);
+ 
+ 
+
+  return (
+    <div className=' bg-gray-50 h-full'>
+      <div className='text-center'>
+{date}
+      </div>
+      {cartItems.map((item)=>(
+           <CartItem key={item.id} No={item.id} name={item.name}  price={20}/>
+      ))}
+   
     </div>
   )
 }

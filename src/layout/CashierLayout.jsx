@@ -8,6 +8,11 @@ const CashierLayout = () => {
 
   const currentRoute = cashier_navs.find((r) => r.path === location.pathname);
 
+
+  
+
+  
+
   return (
     <div className="flex min-h-screen">
       <SideBar  navs={cashier_navs} role={"cashier"}/>
