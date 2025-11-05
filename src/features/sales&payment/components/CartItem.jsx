@@ -1,37 +1,52 @@
 import { Minus, Plus } from "lucide-react";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 
-const CartItem = ({ No, name, qty=1, price, onChange }) => {
-  const [currentQty, setcurrentQty] = useState(qty);
 
-  const handelMinus = (e) => {
-    e.preventDefault();
-    setcurrentQty((prevQty) => prevQty - 1);
-  };
+const CartItem = ({ name, qty, price, handleMinus,handlePlus }) => {
 
-  const handlePlus = (e) => {
-    e.preventDefault();
-    setcurrentQty((prevQty) => prevQty + 1);
-  };
+
+
+
+//   const handleMinus = (product) => {
+//   dispatch(removeQty(product))
+//   };
+
+//   const handlePlus = (e) => {
+//     e.preventDefault();
+//     setCurrentQty((prev) => {
+//       const value = prev + 1;
+//       onChange && onChange(value);
+//       return value;
+//     });
+//   };
 
   return (
-    <div className=" p-1.5">
+    <div className="p-1.5">
       <div className="flex items-center justify-between">
-        {No} <span>{name}</span>
-        <span className="flex items-center gap-x-2">
-          <button
-            onClick={handelMinus}
-            className="cursor-pointer bg-slate-900 rounded-sm text-white"
-          >
-            <Minus size={18} />
-          </button>
-          {currentQty}
+        <span className="w-1/2">{name}</span>
 
-          <button onClick={handlePlus} className="cursor-pointer bg-slate-900 rounded-sm text-white">
-            <Plus size={18} />
-          </button>
+        <span className="flex justify-around w-1/2 items-center gap-x-2">
+          <div className="w-20 flex items-center justify-between px-1 py-0.5 rounded-md">
+            <button
+              onClick={handleMinus}
+              className="cursor-pointer bg-slate-900 rounded-sm text-white px-1.5"
+            >
+              <Minus size={14} />
+            </button>
+
+            <span className="text-sm">{qty}</span>
+
+            <button
+              onClick={handlePlus}
+              className="cursor-pointer bg-slate-900 rounded-sm text-white px-1.5"
+            >
+              <Plus size={14} />
+            </button>
+          </div>
+
+          <div className="font-semibold">${price}</div>
         </span>
-        ${price}
       </div>
     </div>
   );
