@@ -1,8 +1,12 @@
 import React from "react";
 
-const PopupBackground = ({ className = "", children }) => {
+const PopupBackground = ({ className = "", children, isOpen }) => {
   return (
-    <div className={`fixed inset-0 w-screen h-screen bg-black/10 flex items-center justify-center z-[999] ${className}`}>
+    <div
+      className={`${
+        isOpen ? "flex" : "hidden"
+      } fixed inset-0 w-screen h-screen bg-black/10 items-center justify-center z-[999] ${className}`}
+    >
       {children}
     </div>
   );

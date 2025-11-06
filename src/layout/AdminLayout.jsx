@@ -4,9 +4,20 @@ import AppBar from "../component/common/AppBar";
 import { admin_navs } from "../constant/Navs";
 import PopupBackground from "../component/common/PopupBackground";
 import Popup from "../component/common/Popup";
+import { useDispatch, useSelector } from "react-redux";
+import { closePopup } from "../reducer/PopupSlice";
+
 
 const AdminLayout = () => {
   const location = useLocation();
+  const isOpen=useSelector((state)=>state.popup.isOpen);
+  const dispatch=useDispatch();
+
+  const closeModal=()=>{
+    dispatch(closePopup())
+  }
+
+
 
   
 
@@ -17,10 +28,11 @@ const AdminLayout = () => {
   return (
     <div className="relative flex min-h-screen">
 
-      <PopupBackground className={`absolute z-50 inset-0 `}>
-        <Popup/>
-      </PopupBackground>
-   <div className="-z-10 ">
+     {isOpen &&
+      <PopupBackground isOpen={isOpen} className={`absolute z-[999] inset-0 `}>
+        <Popup close={()=>closeModal()}/>
+      </PopupBackground>}
+   <div className="z-10 ">
        <SideBar navs={admin_navs} role={"super admin"}/>
    </div>
       <div className="flex-1 flex flex-col overflow-hidden">
