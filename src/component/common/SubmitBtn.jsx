@@ -2,7 +2,7 @@ export const SubmitBtn = ({ onClick, className, props, name }) => {
   return (
     <button
       onClick={onClick}
-      className={`w-full bg-slate-900 text-white ${className}`}
+      className={`text-lg rounded-md w-full cursor-pointer hover:bg-slate-950 bg-slate-900 text-white ${className}`}
       {...props}
     >
       {name}

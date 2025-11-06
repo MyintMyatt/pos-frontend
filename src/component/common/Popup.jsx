@@ -6,16 +6,18 @@ import UserForm from "../../features/admin/component/UserForm";
 import { popupInstance } from "../../constant/enum";
 import MenuForm from "../../features/admin/component/MenuForm";
 
-const Popup = ({ children, className, close }) => {
+const Popup = ({ children, className, close,title }) => {
   const content = useSelector((state) => state.popup.content);
   console.log("CONTENT", content);
 
   switch (content) {
     case popupInstance.USER:
+      title="Rgister New User"
       children = <UserForm />;
       break;
 
     case popupInstance.MENU:
+      title="Create New Menu"
       children = <MenuForm />;
       break;
 
@@ -24,10 +26,13 @@ const Popup = ({ children, className, close }) => {
   }
 
   return (
-    <div className="shadow-md p-1 bg-white rounded-sm shadow-gray-800 w-1/3 min-h-1/3">
-      <header className="flex gap-x-1 items-center justify-end">
+    <div className="shadow-md p-6 bg-white rounded-sm shadow-gray-800 w-1/3 min-h-1/3">
+      <header className="flex py-2 gap-x-1 items-center justify-between">
+
+      <h3 className="text-2xl font-medium">{title}</h3>
+
         <button
-          className="bg-slate-900 p-1 size-8 rounded-full text-white"
+          className="cursor-pointer p-1 size-8 rounded-full text-slate-950"
           onClick={close}
         >
           X

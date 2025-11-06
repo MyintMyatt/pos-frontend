@@ -3,11 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isOpen: false,
   content: null,
+  title: null,
 };
 
 const popupSlice = createSlice({
   name: "popup",
-  initialState, 
+  initialState,
   reducers: {
     openPopup: (state, action) => {
       state.content = action.payload;
