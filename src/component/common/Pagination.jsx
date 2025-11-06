@@ -1,37 +1,42 @@
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
-const ArrowBtn = ({placeholder,props,className}) => {
+const ArrowBtn = ({ icon, onClick, disabled = false, className = "" }) => {
   return (
-    <button {...props}  className={`bg-gray-800 cursor-pointer  rounded-sm text-white w-fit p-2 disabled:cursor-not-allowed ' ${className}`} >
-           
-    {placeholder}
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className={`
+        bg-gray-800 text-white rounded-sm p-2 w-fit flex items-center justify-center
+        cursor-pointer disabled:cursor-not-allowed disabled:opacity-50
+        hover:bg-gray-700 transition
+        ${className}
+      `}
+    >
+      {icon}
     </button>
-  )
-}
+  );
+};
 
-
-
-const Pagination = ({totalPages,current,onPageChange}) => {
-
-
-
-
-
-
-
+const Pagination = ({ totalPages, current, onPageChange }) => {
   return (
-    <div className='flex gap-x-8'>
+    <div className="flex items-center gap-6">
+      <ArrowBtn
+        icon={<ChevronLeft />}
+        onClick={() => onPageChange(current - 1)}
+        disabled={current === 1}
+      />
 
-<ArrowBtn placeholder={<ChevronLeft />} disabled={current===1}/>
+      <div className="text-gray-800 font-medium">
+        {current} of {totalPages}
+      </div>
 
-<div className='flex items-center'>{current} of {totalPages}</div>
-
-<ArrowBtn placeholder={<ChevronRight/>} disabled={current===totalPages}/>
-
-
-
+      <ArrowBtn
+        icon={<ChevronRight />}
+        onClick={() => onPageChange(current + 1)}
+        disabled={current === totalPages}
+      />
     </div>
-  )
-}
+  );
+};
 
-export default Pagination
+export default Pagination;

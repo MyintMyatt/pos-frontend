@@ -4,6 +4,7 @@ import SearchBar from "../../../component/common/SearchBar";
 import FloatBtn from "../../../component/common/FloatBtn";
 import { popupInstance } from "../../../constant/enum";
 import { openPopup } from "../../../reducer/popupSlice";
+import DateRangePicker from "../../../component/common/DateRangePicker";
 
 const Inventory = () => {
 
@@ -16,6 +17,7 @@ const Inventory = () => {
       <header className="flex justify-between">
         <SearchBar />
         <Dropdown />
+        <DateRangePicker/>
       </header>
 
       {/* LIST VIEW */}
