@@ -17,7 +17,7 @@ const User = () => {
   };
   return (
     <div>
-      <header>
+      <header className="flex justify-between">
         <SearchBar />
         <Dropdown />
       </header>
