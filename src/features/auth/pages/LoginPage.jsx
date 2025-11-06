@@ -1,10 +1,9 @@
-import React from 'react'
-import { Login } from '../../../constant/LazyLoad'
+import LoginForm from "../components/LoginForm"
 
 const LoginPage = () => {
   return (
-    <div className='bg-red-500 w-screen'>
-        <Login/>
+    <div className='flex justify-center items-center h-screen w-screen'>
+        <LoginForm/>
     </div>
   )
 }

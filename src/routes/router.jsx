@@ -34,8 +34,8 @@ const router = createBrowserRouter([
       { element: <SalesHistory />, path: "sales-history" },
     ],
   },
-  ...authRouter
 
+...authRouter
 ]);
 
 export default router;

@@ -1,14 +1,14 @@
 
-import LoginPage from "../features/auth/pages/LoginPage";
-import { AuthLayout, NotFound } from "../constant/LazyLoad";
+
+import { AuthLayout,  Login,  NotFound } from "../constant/LazyLoad";
 
 export const authRouter = [
   {
-    path: "/",
+    path: "/login",
     element: <AuthLayout />,
- 
     children: [
-      { index: true, element: <LoginPage /> },
+      {  element: <Login /> ,index:true},
     ],
   },
 ];
+
