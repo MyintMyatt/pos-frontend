@@ -10,6 +10,7 @@ import {
   User,
 } from "../constant/LazyLoad";
 import CashierLayout from "../layout/CashierLayout";
+import { authRouter } from "./authRouter";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,8 @@ const router = createBrowserRouter([
       { element: <SalesHistory />, path: "sales-history" },
     ],
   },
+  ...authRouter
+
 ]);
 
 export default router;
