@@ -1,6 +1,6 @@
-import Dropdown from "../../../../component/common/Dropdown";
-import FloatBtn from "../../../../component/common/FloatBtn";
-import SearchBar from "../../../../component/common/SearchBar";
+import Dropdown from "../../../component/common/Dropdown";
+import FloatBtn from "../../../component/common/FloatBtn";
+import SearchBar from "../../../component/common/SearchBar";
 
 const User = () => {
   return (

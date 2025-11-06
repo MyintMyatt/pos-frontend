@@ -20,7 +20,7 @@ const SideBar = ({navs,role}) => {
 
   return (
     <aside
-      className={`h-screen bg-white border-r border-gray-200 flex flex-col transition-all duration-300 overflow-hidden ${
+      className={`h-screen -z-10 bg-white border-r border-gray-200 flex flex-col transition-all duration-300 overflow-hidden ${
         collapsed ? "translate-x-0 w-16" : "translate-x-0 w-60"
       }`}
     >
