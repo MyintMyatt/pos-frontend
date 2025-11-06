@@ -10,14 +10,6 @@ const MenuCard = forwardRef(
                     <img src={img} className="rounded-md" />
                 </div>
 
-                <button
-                    onClick={onClick}
-                    className="absolute right-3 bottom-14 cursor-pointer p-2 rounded-full bg-slate-900 w-fit text-white "
-                    ref={ref}
-                >
-                    <LucideShoppingBag size={17} />
-                </button>
-
                 <div className="flex justify-around items-center mt-2 gap-x-3.5">
                     <div className="flex flex-col">
                         <h3 className="text-xl font-medium">{name}</h3>
