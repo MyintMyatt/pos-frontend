@@ -3,11 +3,12 @@ import SearchBar from "../../../component/common/SearchBar";
 import Dropdown from "../../../component/common/Dropdown";
 
 import Pagination from "../../../component/common/Pagination";
-import { useRef } from "react";
-
+import { useEffect } from "react";
+import { useState } from "react";
+import { categoryApi, menuApi } from "../api/menuService";
 const MenuList = () => {
-    const searchRef = useRef("");
-    const products = [
+    const category = ["All", "Breakfast", "Lunch", "Dinner", "Drink"];
+    const [products, setProducts] = useState([
         // Food
         { id: "p1", name: "Cheese Burger", price: 20, category: "Food" },
         { id: "p2", name: "Chicken Pizza", price: 35, category: "Food" },
@@ -19,23 +20,59 @@ const MenuList = () => {
         { id: "p6", name: "Iced Coffee", price: 8, category: "Drink" },
         { id: "p7", name: "Milk Tea", price: 5, category: "Drink" },
         { id: "p8", name: "Lemon Juice", price: 6, category: "Drink" },
-    ];
-    // useEffect(() => {
-    //     console.log(searchRef.currentTarget.value);
-    // }, [searchRef.currentTarget.value]);
-    const category = ["Breakfast", "Lunch", "Dinner", "Drink"];
+    ]);
+    const [filteredProducts, setFilteredProducts] = useState(products);
+    const [filter, setFilter] = useState({ search: "", category: "All" });
+    useEffect(() => {
+        categoryApi.fetchAllCategories().then((categories) => {
+            console.log(categories);
+        });
+    }, []);
+
+    useEffect(() => {
+        const value = filter.search;
+        const category = filter.category;
+        let filteredData = products;
+        if (category != "All") {
+            filteredData = products.filter(
+                (product) => product.category === category,
+            );
+        }
+        if (value !== "") {
+            filteredData = filteredData.filter((product) =>
+                product.name.toLowerCase().includes(value.toLowerCase()),
+            );
+        }
+        setFilteredProducts(filteredData);
+    }, [products, filter]);
 
     return (
-        <div className=" h-full px-4 py-2">
+        <div className="h-full  px-4 py-2">
             <div className="flex justify-between">
-                <SearchBar ref={searchRef} />
+                <SearchBar
+                    onChange={(e) =>
+                        setFilter((prev) => ({
+                            ...prev,
+                            search: e.target.value,
+                        }))
+                    }
+                />
                 <div>
-                    <Dropdown items={category} placeholder="Category" />
+                    <Dropdown
+                        items={category}
+                        onChange={(value) =>
+                            setFilter((prev) => ({
+                                ...prev,
+                                category: value,
+                            }))
+                        }
+                        placeholder="Category"
+                    />
                 </div>
             </div>
 
             <div className="grid grid-cols-4 gap-1.5 h-3/4 mt-1.5 p-1.5">
-                {products.map((product) => (
+                {filteredProducts.map((product) => (
                     <MenuCard
                         img
                         category={product.category}

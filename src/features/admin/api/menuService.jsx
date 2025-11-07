@@ -1,4 +1,4 @@
-import axiosClient from "@/api/axiosClient";
+import axiosClient from "../../../api/apiClient";
 export const menuApi = {
     fetchAllMenus: () => axiosClient.get("/admin/menu"),
     fetchMenuById: (id) => axiosClient.get(`/admin/menu/${id}`),

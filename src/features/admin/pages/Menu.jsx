@@ -16,7 +16,7 @@ const Menu = () => {
     };
 
     return (
-        <div>
+        <div className="h-screen relative px-4 py-2">
             {showStatusPopUp && (
                 <StatusPopup
                     statusMessage="Success"
@@ -31,7 +31,7 @@ const Menu = () => {
                 </StatusPopup>
             )}
             <MenuList />
-            <div className="absolute bottom-4 right-6">
+            <div className="absolute bottom-25 right-10">
                 <FloatBtn onClick={() => handlePopup(popupInstance.MENU)} />
             </div>
         </div>

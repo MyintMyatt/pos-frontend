@@ -22,6 +22,7 @@ const MenuForm = () => {
         stock: "",
         description: "",
     });
+
     const handleOnClick = () => {
         // Add your logic here
     };
