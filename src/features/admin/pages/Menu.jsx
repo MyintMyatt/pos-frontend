@@ -1,15 +1,15 @@
 import { StatusPopup } from "@/component/StatusPopUp";
 import AnimationData from "@/assets/Success.json";
 import Lottie from "lottie-react";
-import { useState } from "react";
 import FloatBtn from "../../../component/common/FloatBtn";
 import { popupInstance } from "../../../constant/enum";
-import { useDispatch } from "react-redux";
 import { openPopup } from "../../../reducer/popupSlice";
 import MenuList from "../component/MenuList";
+import { useSelector, useDispatch } from "react-redux";
+import { setSuccessPopUp } from "../../../reducer/menuSlice";
 
 const Menu = () => {
-    const [showStatusPopUp, setShowStatusPopUp] = useState(false);
+    const showStatusPopUp = useSelector((state) => state.menu.successPopUp);
     const dispatch = useDispatch();
     const handlePopup = (content) => {
         dispatch(openPopup(content));
@@ -20,7 +20,7 @@ const Menu = () => {
             {showStatusPopUp && (
                 <StatusPopup
                     statusMessage="Success"
-                    onClose={() => setShowStatusPopUp(false)}
+                    onClose={() => dispatch(setSuccessPopUp(false))}
                 >
                     <Lottie
                         animationData={AnimationData}
