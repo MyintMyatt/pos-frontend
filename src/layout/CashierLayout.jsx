@@ -15,7 +15,9 @@ const CashierLayout = () => {
 
   return (
     <div className="flex min-h-screen">
-      <SideBar  navs={cashier_navs} role={"cashier"}/>
+      <div className="z-40">
+        <SideBar  navs={cashier_navs} role={"cashier"}/>
+      </div>
       <div className="flex-1 flex flex-col overflow-hidden">
         <AppBar title={currentRoute.title} />
         <div className="flex-1">

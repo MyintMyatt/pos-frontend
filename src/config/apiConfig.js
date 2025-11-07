@@ -7,8 +7,9 @@ const AUTH = {
 
 const USERS = {
   FETCH: `${BASE_URL}/users`,
-  UPDATE: (id) => `${BASE_URL}/users/${id}`, // dynamic URL
-  DELETE: (id) => `${BASE_URL}/users/${id}`, // dynamic URL
+  CREATE:`${BASE_URL}/admin/user/register`
+  // UPDATE: (id) => `${BASE_URL}/users/${id}`, // dynamic URL
+  // DELETE: (id) => `${BASE_URL}/users/${id}`, // dynamic URL
 };
 
 const INVENTORY = {
@@ -26,10 +27,16 @@ const CASHIER = {
   FETCH: `${BASE_URL}/cashier/sales`,
 };
 
+
+const MENU={
+  FETCH:`${BASE_URL}/admin/menu`
+}
+
 export const API_ENDPOINTS = {
   AUTH,
   USERS,
   INVENTORY,
   DISCOUNT,
-  CASHIER
+  CASHIER,
+  MENU
 };

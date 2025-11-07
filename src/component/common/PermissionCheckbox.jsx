@@ -1,10 +1,10 @@
 import React from "react";
 
 const PERMISSIONS = [
-  { label: "Read", value: "read" },
-  { label: "Write", value: "write" },
-  { label: "Update", value: "update" },
-  { label: "Delete", value: "delete" },
+  { label: "Read", value: "READ" },
+  { label: "Write", value: "WRITE" },
+  { label: "Update", value: "UPDATE" },
+  { label: "Delete", value: "DELETE" },
 ];
 
 export default function PermissionsCheckbox({ values = [], onChange }) {

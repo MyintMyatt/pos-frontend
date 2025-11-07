@@ -1,9 +1,12 @@
-import axiosClient from "@/api/axiosClient";
+import apiClient from "@/api/apiClient";
+import axios from "axios";
+import { API_ENDPOINTS } from "../../../config/apiConfig";
 
-export const userApi = {
-    fetchAllUsers: () => axiosClient.get("/user"),
-    createUser: (data) => axiosClient.post("/user/register", data),
-    getUserByEmail: (email) => axiosClient.get(`/user/${email}`),
-    updateUser: (email, data) => axiosClient.put(`/user/${email}`, data),
-    deleteUser: (email) => axiosClient.delete(`/user/${email}`),
+export const createUser = async (form) => {
+  try {
+    const response = await axios.post(API_ENDPOINTS.USERS.CREATE, form);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 };

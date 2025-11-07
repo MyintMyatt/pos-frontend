@@ -1,27 +1,64 @@
-import React from "react";
+import{ useEffect, useRef, useState } from "react";
 import MenuCard from "./MenuCard";
-import SearchBar from "../../../component/common/SearchBar";
-import Dropdown from "../../../component/common/Dropdown";
+
 import { useDispatch } from "react-redux";
 import { addToCart } from "../reducers/cartSlice";
+
+
+import { fetchAllMenus } from "../../admin/api/menuService";
+import SearchBar from "../../../component/common/SearchBar";
+import Dropdown from "../../../component/common/Dropdown";
 import Pagination from "../../../component/common/Pagination";
 
 const MenuList = () => {
+const [keyword, setKeyword] = useState("");
+const searchRef = useRef(null);
+const debounceRef = useRef(null);
 
-const products = [
-  // Food
-  { id: "p1", name: "Cheese Burger", price: 20, category: "Food" },
-  { id: "p2", name: "Chicken Pizza", price: 35, category: "Food" },
-  { id: "p3", name: "Beef Steak", price: 50, category: "Food" },
-  { id: "p4", name: "Grilled Chicken", price: 40, category: "Food" },
-  { id: "p5", name: "Vegetable Salad", price: 12, category: "Food" },
+const handleSearch = () => {
+  const value = searchRef.current.value;
 
-  // Drink
-  { id: "p6", name: "Iced Coffee", price: 8, category: "Drink" },
-  { id: "p7", name: "Milk Tea", price: 5, category: "Drink" },
-  { id: "p8", name: "Lemon Juice", price: 6, category: "Drink" },
- 
-];
+  clearTimeout(debounceRef.current);
+  debounceRef.current = setTimeout(() => {
+    setKeyword(value);
+  }, 500);
+};
+
+
+  const [products,setProducts]=useState([]);
+
+
+
+useEffect(() => {
+  const loadData = async () => {
+    try {
+      const response = await fetchAllMenus({
+      
+        page:0,
+        size: 8,
+          keyword:keyword,
+      });
+
+      console.log("RESPONSE", response);
+
+     
+      if (response.status === 200) {
+        setProducts(response.data.content); 
+      }
+
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  loadData();
+}, [keyword]);
+
+
+console.log(keyword);
+
+
+
 
 
 
@@ -34,7 +71,7 @@ const products = [
   return (
     <div className=" h-full px-4 py-2">
       <div className="flex justify-between">
-        <SearchBar />
+        <SearchBar ref={searchRef} onChange={handleSearch} />
         <div>
           <Dropdown items={category} placeholder="Category" />
         </div>
@@ -42,7 +79,7 @@ const products = [
 
    <div className="grid grid-cols-4 gap-1.5 h-3/4 mt-1.5 p-1.5">
       {products.map((product)=>(
-      <MenuCard img onClick={()=>handleAddToCart(product)} category={product.category} key={product.id} id={product.id} name={product.name} price={product.price} />
+      <MenuCard img onClick={()=>handleAddToCart(product)} category={product.category.categoryName} key={product.menuId} id={product.menuId} name={product.menuName} price={product.price} />
      ))}
    </div>
 

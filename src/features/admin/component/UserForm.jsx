@@ -4,13 +4,15 @@ import CustomDropdown from "../../../component/common/CustomDropdown";
 import { role } from "../../../constant/enum";
 import { SubmitBtn } from "../../../component/common/SubmitBtn";
 import PermissionsCheckbox from "../../../component/common/PermissionCheckbox";
+import { createUser } from "../api/userService";
 
 const UserForm = () => {
   // Form state
   const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
+  const [userName, setUsername] = useState("");
   const [userRole, setUserRole] = useState(null);
-  const [permissions, setPermissions] = useState(["read"]);
+  const [permissions, setPermissions] = useState(["READ"]);
+  const password="Office365@12345"
 
   // Optional: simple form errors
   const [errors, setErrors] = useState({});
@@ -18,25 +20,36 @@ const UserForm = () => {
   const validateForm = () => {
     const newErrors = {};
     if (!email) newErrors.email = "Email is required";
-    if (!username) newErrors.username = "Username is required";
+    if (!userName) newErrors.username = "Username is required";
     if (!userRole) newErrors.role = "Role is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     if (!validateForm()) return;
 
     const formData = {
-      email,
-      username,
+      userEmail:email,
+      userName,
+      password,
       role: userRole,
       permissions,
     };
 
     console.log("Form Data:", formData);
-    // Add API call here to submit form data
+    
+
+  try{
+      const response=await createUser(formData);
+      console.log(response);
+      
+  }catch(e){
+    console.error(e)
+    
+  }
+    
   };
 
   return (
@@ -55,10 +68,10 @@ const UserForm = () => {
       <CustomInput
         type="text"
         placeholder="Enter username"
-        value={username}
+        value={userName}
         onChange={(e) => setUsername(e.target.value)}
       />
-      {errors.username && <span className="text-red-500 text-sm">{errors.username}</span>}
+      {errors.userName && <span className="text-red-500 text-sm">{errors.username}</span>}
 
       <CustomDropdown
         options={role}

@@ -8,7 +8,7 @@ export const popupInstance = Object.freeze({
 export const defaultpwd = "jwdPos@12345";
 
 export const role = [
-  { label: "ADMIN", value: "admin" },
-  { label: "SUPERVISOR", value: "supervisor" },
-  { label: "CASHIER", value: "cashier" },
+  { label: "ADMIN", value: "ADMIN" },
+  { label: "SUPERVISOR", value: "SUPERVISOR" },
+  { label: "CASHIER", value: "CASHIER" },
 ];

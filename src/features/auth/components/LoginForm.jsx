@@ -4,6 +4,7 @@ import PasswordInput from "../../../component/common/PasswordField";
 import { SubmitBtn } from "../../../component/common/SubmitBtn";
 import { login } from "../service/authService";
 import { useNavigate } from "react-router-dom";
+import { role } from "../../../constant/enum";
 
 const LoginForm = () => {
   const naviagte = useNavigate();
@@ -26,13 +27,19 @@ const LoginForm = () => {
       if ((response.status = 1)) {
         const token = response.data.token;
         const user = response.data.user;
+    console.log("USER",user.userId);
     
         
         localStorage.setItem("token", token);
         localStorage.setItem("role", user.role);
+        localStorage.getItem("userId",user.userId);
              localStorage.setItem("name", user.userName);
-
+          if(role==="ADMIN"){
+            
         naviagte("/admin");
+          } else {
+            naviagte("/cashier")
+          }
       }
     } catch (error) {
       console.error(error);

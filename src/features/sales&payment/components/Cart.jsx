@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addQty, removeQty } from "../reducers/cartSlice";
 import PaymentCard from "./PaymentCard";
 import { CardSimIcon, DollarSign, IdCard, PlaySquare } from "lucide-react";
+import { sales } from "../api/saleService";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,24 @@ const Cart = () => {
   const Tax = 2;
   const taxPercent = Tax / 100;
   const total = subTotalAmt + subTotalAmt * taxPercent;
+  const date = getDate();
+
+  const UID=JSON.parse(localStorage.getItem("userId"));
+  const formData={
+    userId:UID,
+    saleDate:date,
+    items:cartItems,
+    taxIds:"TAX25110001"
+  }
+
+  const handleSales = async () => {
+    try {
+      const response = await sales(formData);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleMinus = (id) => {
     dispatch(removeQty(id));
@@ -22,7 +41,9 @@ const Cart = () => {
     dispatch(addQty(id));
   };
 
-  const date = getDate();
+
+
+  console.log("CART", cartItems);
 
   return (
     <div className="bg-gray-50 h-full flex flex-col justify-around">
@@ -71,7 +92,10 @@ const Cart = () => {
 
       {/* Checkout Action */}
       <div className="p-2">
-        <button className="w-full cursor-pointer rounded-sm bg-indigo-500 p-2 text-white antialiased">
+        <button
+          onClick={handleSales}
+          className="w-full cursor-pointer rounded-sm bg-indigo-500 p-2 text-white antialiased"
+        >
           Checkout
         </button>
       </div>
