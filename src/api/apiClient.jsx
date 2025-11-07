@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const axiosClient = axios.create({
+ const apiClient = axios.create({
     baseURL: import.meta.env.VITE_API_URL,
     headers: {
         Accept: "application/json",
@@ -8,7 +8,7 @@ const axiosClient = axios.create({
 });
 
 
-axiosClient.interceptors.request.use(
+apiClient.interceptors.request.use(
     (config) => {
       
         const token = localStorage.getItem('token');
@@ -23,12 +23,16 @@ axiosClient.interceptors.request.use(
 );
 
 
-axiosClient.interceptors.response.use(
+apiClient.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response && error.response.status === 401) {
-            // For example, remove token and redirect to login
+         
             localStorage.removeItem('token');
             window.location.href = '/auth/login';
         }
-        return Promise.reject(error);
+        return Promise.reject(error)}
+    );
+
+
+    export default apiClient;
