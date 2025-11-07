@@ -5,6 +5,7 @@ import UserForm from "../../features/admin/component/UserForm";
 import { popupInstance } from "../../constant/enum";
 import MenuForm from "../../features/admin/component/MenuForm";
 import InventoryForm from "../../features/admin/component/InventoryForm";
+import DiscountForm from "../../features/admin/component/DiscountForm";
 
 const Popup = ({ children, className, close, title }) => {
   const content = useSelector((state) => state.popup.content);
@@ -25,6 +26,11 @@ const Popup = ({ children, className, close, title }) => {
       title = "Manage Your Inventory";
       children = <InventoryForm />;
       break;
+
+      case popupInstance.DISCOUNT:
+        title="CREATE DISCOUNT";
+        children=<DiscountForm/>
+
 
     default:
       break;

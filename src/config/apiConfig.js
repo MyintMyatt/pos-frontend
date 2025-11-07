@@ -11,9 +11,25 @@ const USERS = {
   DELETE: (id) => `${BASE_URL}/users/${id}`, // dynamic URL
 };
 
+const INVENTORY = {
+  FETCH: `${BASE_URL}`,
+  POST: `${BASE_URL}/admin/inventory`,
+};
+
+const DISCOUNT = {
+  FETCH: `${BASE_URL}/admin/menu-discount`,
+  POST: `${BASE_URL}/admin/menu-discount`,
+};
+
+const CASHIER = {
+  POST: `${BASE_URL}/cashier/sales`,
+  FETCH: `${BASE_URL}/cashier/sales`,
+};
 
 export const API_ENDPOINTS = {
   AUTH,
   USERS,
-  // Add more modules/resources here
+  INVENTORY,
+  DISCOUNT,
+  CASHIER
 };
