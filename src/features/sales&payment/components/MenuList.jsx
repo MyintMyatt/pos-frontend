@@ -16,6 +16,9 @@ const searchRef = useRef(null);
 const debounceRef = useRef(null);
 
 const handleSearch = () => {
+
+
+
   const value = searchRef.current.value;
 
   clearTimeout(debounceRef.current);
@@ -26,7 +29,15 @@ const handleSearch = () => {
 
 
   const [products,setProducts]=useState([]);
+   const [currentPage,setCurentPage]=useState(1);
 
+
+const [totalPages,setTotalPages]=useState(0);
+
+
+
+   console.log(totalPages);
+   
 
 
 useEffect(() => {
@@ -34,15 +45,19 @@ useEffect(() => {
     try {
       const response = await fetchAllMenus({
       
-        page:0,
+        page:currentPage-1,
         size: 8,
-          keyword:keyword,
+        keyword:keyword,
       });
 
       console.log("RESPONSE", response);
 
      
       if (response.status === 200) {
+       console.log("PAGES",response.data.totalPages);
+       
+        
+        setTotalPages(response.data.totalPages);
         setProducts(response.data.content); 
       }
 
@@ -52,7 +67,7 @@ useEffect(() => {
   };
 
   loadData();
-}, [keyword]);
+}, [keyword,currentPage]);
 
 
 console.log(keyword);
@@ -62,8 +77,10 @@ console.log(keyword);
 
 
 
-  const category = ["Breakfast", "Lunch", "Dinner", "Drink"];
+  const category = [ "Dessert", "Drink"];
   const dispatch = useDispatch();
+
+
   const handleAddToCart = (product) => {
     dispatch(addToCart(product));
   };
@@ -73,20 +90,21 @@ console.log(keyword);
       <div className="flex justify-between">
         <SearchBar ref={searchRef} onChange={handleSearch} />
         <div>
-          <Dropdown items={category} placeholder="Category" />
+          {/* <Dropdown items={category} placeholder="Category" /> */}
         </div>
       </div>
 
    <div className="grid grid-cols-4 gap-1.5 h-3/4 mt-1.5 p-1.5">
       {products.map((product)=>(
-      <MenuCard img onClick={()=>handleAddToCart(product)} category={product.category.categoryName} key={product.menuId} id={product.menuId} name={product.menuName} price={product.price} />
+      <MenuCard  onClick={()=>handleAddToCart(product)} 
+      img={product.imageUrl} category={product.category.categoryName} key={product.menuId} id={product.menuId} name={product.menuName} price={product.price} />
      ))}
    </div>
 
 
 
    <div className="flex justify-center items-center relative -bottom-24">
-    <Pagination totalPages={5} current={1}/>
+    <Pagination totalPages={totalPages} current={currentPage} onPageChange={(newPage)=>setCurentPage(newPage)}/>
    </div>
     </div>
   );

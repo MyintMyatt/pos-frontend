@@ -11,5 +11,11 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src")
       // "@assets":path.resolve(__dirname, "./src/assets")
     }
+  },
+
+
+  server:{
+    host:'0.0.0.0',
+    port:5173
   }
 })

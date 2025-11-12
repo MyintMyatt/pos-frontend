@@ -65,8 +65,18 @@ console.log(existItem);
         state.totalAmt = state.products.reduce((sum, p) => sum + p.totalPrice, 0);
       }
     },
+
+
+    clearCart: (state) => {
+  state.products = [];
+  state.totalItems = 0;
+  state.totalAmt = 0;
+}
+
+
+    
   },
 });
 
-export const { addToCart, addQty, removeQty } = cartSlice.actions;
+export const { addToCart, addQty, removeQty,clearCart } = cartSlice.actions;
 export default cartSlice.reducer;

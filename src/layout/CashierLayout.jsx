@@ -2,6 +2,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import SideBar from "../component/common/Sidebar";
 import AppBar from "../component/common/AppBar";
 import { cashier_navs } from "../constant/Navs";
+import { Toaster } from "react-hot-toast";
 
 const CashierLayout = () => {
   const location = useLocation();
@@ -14,7 +15,9 @@ const CashierLayout = () => {
   
 
   return (
+    
     <div className="flex min-h-screen">
+      <Toaster position="top-center"/>
       <div className="z-40">
         <SideBar  navs={cashier_navs} role={"cashier"}/>
       </div>

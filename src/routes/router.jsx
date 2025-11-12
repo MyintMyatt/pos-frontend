@@ -1,5 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute";
+
 import AdminLayout from "../layout/AdminLayout";
+import CashierLayout from "../layout/CashierLayout";
 import {
   Home,
   Inventory,
@@ -9,33 +12,44 @@ import {
   SalesHistory,
   User,
 } from "../constant/LazyLoad";
-import CashierLayout from "../layout/CashierLayout";
 import { authRouter } from "./authRouter";
 
 const router = createBrowserRouter([
+  // CASHIER ROUTES
   {
-    element: <CashierLayout />,
-    path: "/cashier",
-    errorElement: <NotFound />,
+    element: <ProtectedRoute allowedRoles={["CASHIER"]} />,
     children: [
-      { element: <Sales />, index: true },
-      { element: <SalesHistory />, path: "sales-history" },
-    ],
-  },
-  {
-    element: <AdminLayout />,
-    path: "/admin",
-    errorElement: <NotFound />,
-    children: [
-      { element: <Home />, index: true },
-      { element: <User />, path: "users" },
-      { element: <Menu />, path: "menus" },
-      { element: <Inventory />, path: "inventory" },
-      { element: <SalesHistory />, path: "sales-history" },
+      {
+        element: <CashierLayout />,
+        path: "/cashier",
+        errorElement: <NotFound />,
+        children: [
+          { element: <Sales />, index: true },
+          { element: <SalesHistory />, path: "sales-history" },
+        ],
+      },
     ],
   },
 
-...authRouter
+  // ADMIN ROUTES
+  {
+    element: <ProtectedRoute allowedRoles={["ADMIN"]} />,
+    children: [
+      {
+        element: <AdminLayout />,
+        path: "/admin",
+        errorElement: <NotFound />,
+        children: [
+          { element: <User />, index: true },
+          { element: <Menu />, path: "menus" },
+          { element: <Inventory />, path: "inventory" },
+          { element: <SalesHistory />, path: "sales-history" },
+        ],
+      },
+    ],
+  },
+
+  ...authRouter,
 ]);
 
 export default router;

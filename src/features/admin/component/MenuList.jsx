@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { categoryApi, menuApi } from "../api/menuService";
 import { useDispatch } from "react-redux";
-import { setCategories } from "../../../reducer/menuSlice";
+import { setCategories, setMenu } from "../../../reducer/menuSlice";
 import { useSelector } from "react-redux";
 
 const MenuList = () => {
@@ -39,6 +39,7 @@ const MenuList = () => {
                 const menus = await menuApi.fetchAllMenus();
                 const menuData = menus.data.data.content;
                 if (menuData) {
+                    dispatch(setMenu(menuData))
                     const temp = menuData.map((item) => ({
                         id: item.menuId,
                         name: item.menuName,
@@ -85,6 +86,9 @@ const MenuList = () => {
         setFilteredProducts(filteredData);
     }, [products, filter, currentPage]);
 
+
+    console.log("TOTAL PAGES",totalPages);
+    
     return (
         <div className="h-full  px-4 py-2">
             <div className="flex justify-between">
@@ -123,7 +127,7 @@ const MenuList = () => {
                 ))}
             </div>
 
-            <div className="flex justify-center items-center relative -bottom-24">
+            <div className="flex justify-center items-center relative -bottom-10">
                 <Pagination
                     totalPages={totalPages}
                     current={currentPage}

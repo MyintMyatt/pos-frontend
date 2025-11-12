@@ -4,45 +4,60 @@ import PasswordInput from "../../../component/common/PasswordField";
 import { SubmitBtn } from "../../../component/common/SubmitBtn";
 import { login } from "../service/authService";
 import { useNavigate } from "react-router-dom";
-import { role } from "../../../constant/enum";
+import { role as Roles } from "../../../constant/enum";
+import toast from "react-hot-toast";
 
 const LoginForm = () => {
-  const naviagte = useNavigate();
-  const [ID, setID] = useState("");
-  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({ userId: "", password: "" });
+  const [loading, setLoading] = useState(false);
 
-  const form = {
-    userId: ID,
-    password: password,
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    console.log(form);
+
+    if (!formData.userId || !formData.password) {
+      toast.error("Please enter both ID and password");
+      return;
+    }
+
+    setLoading(true);
+    const toastId = toast.loading("Logging in...");
 
     try {
-      const response = await login(form);
+      const response = await login(formData);
       console.log("RES", response);
 
-      if ((response.status = 1)) {
-        const token = response.data.token;
-        const user = response.data.user;
-    console.log("USER",user.userId);
-    
-        
+      if (response.status === 200) {
+        const { token, user } = response.data;
+
+        localStorage.setItem("user", JSON.stringify(user));
         localStorage.setItem("token", token);
         localStorage.setItem("role", user.role);
-        localStorage.getItem("userId",user.userId);
-             localStorage.setItem("name", user.userName);
-          if(role==="ADMIN"){
-            
-        naviagte("/admin");
-          } else {
-            naviagte("/cashier")
-          }
+        localStorage.setItem("userId", user.userId);
+        localStorage.setItem("name", user.userName);
+
+        toast.success("Login successful!", { id: toastId });
+
+        console.log(user.role);
+        
+
+        if (user.role === "ADMIN") {
+          navigate("/admin");
+        } else {
+          navigate("/cashier");
+        }
+      } else {
+        toast.error(response.message || "Login failed", { id: toastId });
       }
     } catch (error) {
       console.error(error);
+      toast.error("Something went wrong", { id: toastId });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -53,18 +68,26 @@ const LoginForm = () => {
       </h3>
 
       <CustomInput
-        value={ID}
-        onChange={(e) => setID(e.target.value)}
-        placeholder="Enter your id"
+        name="userId"
+        value={formData.userId}
+        onChange={handleChange}
+        placeholder="Enter your ID"
         type="text"
       />
 
       <PasswordInput
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        name="password"
+        value={formData.password}
+        onChange={handleChange}
+        placeholder="Enter your password"
       />
 
-      <SubmitBtn onClick={handleLogin} name={"LOGIN"} className={`p-2`} />
+      <SubmitBtn
+        onClick={handleLogin}
+        name={loading ? "Logging in..." : "LOGIN"}
+        className={`p-2`}
+        disabled={loading}
+      />
     </form>
   );
 };

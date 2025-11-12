@@ -10,3 +10,13 @@ export const createUser = async (form) => {
     console.log(error);
   }
 };
+
+
+export const getAlluser=async()=>{
+  try {
+    const response=await axios.get(API_ENDPOINTS.USERS.FETCH)
+    return response.data
+  } catch (error) {
+    console.log(error)
+  }
+}

@@ -6,14 +6,14 @@ const AUTH = {
 };
 
 const USERS = {
-  FETCH: `${BASE_URL}/users`,
+  FETCH: `${BASE_URL}/admin/user`,
   CREATE:`${BASE_URL}/admin/user/register`
   // UPDATE: (id) => `${BASE_URL}/users/${id}`, // dynamic URL
   // DELETE: (id) => `${BASE_URL}/users/${id}`, // dynamic URL
 };
 
 const INVENTORY = {
-  FETCH: `${BASE_URL}`,
+  FETCH: `${BASE_URL}/admin/inventory`,
   POST: `${BASE_URL}/admin/inventory`,
 };
 
