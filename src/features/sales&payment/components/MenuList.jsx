@@ -9,6 +9,7 @@ import { fetchAllMenus } from "../../admin/api/menuService";
 import SearchBar from "../../../component/common/SearchBar";
 import Dropdown from "../../../component/common/Dropdown";
 import Pagination from "../../../component/common/Pagination";
+import { useGetMenus } from "../hooks/useGetMenus";
 
 const MenuList = () => {
 const [keyword, setKeyword] = useState("");
@@ -40,37 +41,16 @@ const [totalPages,setTotalPages]=useState(0);
    
 
 
-useEffect(() => {
-  const loadData = async () => {
-    try {
-      const response = await fetchAllMenus({
-      
-        page:currentPage-1,
-        size: 8,
-        keyword:keyword,
-      });
 
-      console.log("RESPONSE", response);
+   useEffect(()=>{
+const loadMenus=async()=>{
+  const data=await useGetMenus(currentPage-1);
+ console.log(data);
+ setProducts(data.data.content)
 
-     
-      if (response.status === 200) {
-       console.log("PAGES",response.data.totalPages);
-       
-        
-        setTotalPages(response.data.totalPages);
-        setProducts(response.data.content); 
-      }
+};loadMenus()
+   },[])
 
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  loadData();
-}, [keyword,currentPage]);
-
-
-console.log(keyword);
 
 
 

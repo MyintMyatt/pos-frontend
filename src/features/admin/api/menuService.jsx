@@ -1,14 +1,12 @@
 
-import axios from "axios";
-import axiosClient from "../../../api/apiClient";
+import apiClient from '../../../api/apiClient'
 import { API_ENDPOINTS } from "../../../config/apiConfig";
 
 export const fetchAllMenus = async ({ page = 0, size = 8, keyword = "", categoryId = "" }) => {
 
-    console.log(API_ENDPOINTS.MENU.FETCH);
     
   try {
-    const response = await axiosClient.get(API_ENDPOINTS.MENU.FETCH, {
+    const response = await apiClient.get(API_ENDPOINTS.MENU.FETCH, {
       params: {
         page,
         size,
@@ -19,9 +17,13 @@ export const fetchAllMenus = async ({ page = 0, size = 8, keyword = "", category
     return response.data;
   } catch (error) {
     console.error(error);
-    throw error; // Always rethrow so caller can handle
+    throw error; 
   }
 }
+
+
+
+
 export const menuApi = {
     fetchAllMenus: () => axiosClient.get("/admin/menu?page=0&size=30"),
     fetchMenuById: (id) => axiosClient.get(`/admin/menu/${id}`),

@@ -12,7 +12,7 @@ export const sales = async (form) => {
 
 export const getAllSales = async () => {
   try {
-    const response = await axios.get(API_ENDPOINTS.CASHIER.FETCH+`?size=30`);
+    const response = await axios.get(API_ENDPOINTS.CASHIER.FETCH+`?size=100`);
     return response;
   } catch (error) {
     console.error(error);

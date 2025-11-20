@@ -5,34 +5,22 @@ import SearchBar from "../../../component/common/SearchBar";
 import Dropdown from "../../../component/common/Dropdown";
 import SalesHistoryList from "../component/SalesHistoryList";
 import DateRangePicker from "../../../component/common/DateRangePicker";
+import { useGetAllSales } from "../hooks/useFecthSales";
 
 const SaleHistory = () => {
   const [dateRange, setDateRange] = useState({ start: "", end: "" });
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
+
+
+  const {sales}=useGetAllSales();
+
   const handleDateChange = (range) => {
     setDateRange(range);
     console.log("Selected date range:", range);
   };
 
-  // Fetch all sales
-  useEffect(() => {
-    const fetchSales = async () => {
-      try {
-        const response = await getAllSales();
-        console.log(response);
-        if (response.status === 200) {
-          setData(response.data.data.content);
-          setFilteredData(response.data.data.content); // initially show all
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchSales();
-  }, []);
 
   useEffect(() => {
     if (!dateRange.start || !dateRange.end) {
@@ -41,7 +29,7 @@ const SaleHistory = () => {
     }
 
     const filtered = data.filter((item) => {
-      const salesDate = new Date(item.saleDate); // adjust if your key is different
+      const salesDate = new Date(item.saleDate); 
       const start = new Date(dateRange.start);
       const end = new Date(dateRange.end);
       return salesDate >= start && salesDate <= end;
