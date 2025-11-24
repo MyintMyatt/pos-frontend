@@ -5,7 +5,7 @@ import FloatBtn from "../../../component/common/FloatBtn";
 import { popupInstance } from "../../../constant/enum";
 import { openPopup } from "../../../reducer/popupSlice";
 import DateRangePicker from "../../../component/common/DateRangePicker";
-import { getAllMovement } from "../api/inventoryService";
+
 import { useEffect, useState } from "react";
 import InventoryMovementList from "../component/InventoryMovementList";
 
@@ -13,20 +13,7 @@ const Inventory = () => {
   const [inventory, setInventory] = useState([]);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchInventory = async () => {
-      try {
-        const response = await getAllMovement();
-        console.log(response);
-        if (response.status === 200) {
-          setInventory(response.data);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchInventory();
-  }, []);
+
 
   const handlePopup = (content) => {
     dispatch(openPopup(content));

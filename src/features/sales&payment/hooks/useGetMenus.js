@@ -1,19 +1,26 @@
-import { fetchAllMenus } from "../../admin/api/menuService";
+import { useEffect, useState } from "react";
+import { getMenus } from "../../../sevices/menuService";
 
-export const useGetMenus = async(page, size = 8, category, keyword) => {
-  try {
-    const response = await fetchAllMenus({page});
+export const useGetMenus = (page, keyword, size) => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  useEffect(() => {
+    const fetchMenu = async () => {
+      try {
+        setLoading(true);
+        const menu = await getMenus(page, keyword, size);
+        setData(menu);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    console.log(response.data);
-    
+    fetchMenu();
+  }, [page, keyword, size]);
 
-    if (response.status === 200) {
-      return response;
-    } else {
-      return "Loading";
-    }
-  } catch (error) {
-    throw new error;
-  }
+  return { data, loading, error };
 };

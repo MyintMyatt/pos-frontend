@@ -4,7 +4,7 @@ import CustomDropdown from "../../../component/common/CustomDropdown";
 import { SubmitBtn } from "../../../component/common/SubmitBtn";
 import { Image } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
-import { menuApi } from "../api/menuService";
+// import { menuApi } from "../api/menuService";
 import { setSuccessPopUp } from "../../../reducer/menuSlice";
 import { closePopup } from "../../../reducer/popupSlice";
 import toast from "react-hot-toast";

@@ -1,4 +1,4 @@
-import { StatusPopup } from "@/component/StatusPopUp";
+// import { StatusPopup } from "@/component/StatusPopUp";
 import AnimationData from "@/assets/Success.json";
 import Lottie from "lottie-react";
 import FloatBtn from "../../../component/common/FloatBtn";
@@ -26,7 +26,7 @@ const Menu = () => {
                         animationData={AnimationData}
                         loop={true}
                         autoplay={true}
-                        style={{ width: 200, height: 200 }} // Optional: set styles
+                        style={{ width: 200, height: 200 }} 
                     />
                 </StatusPopup>
             )}

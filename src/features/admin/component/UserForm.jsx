@@ -4,7 +4,7 @@ import CustomDropdown from "../../../component/common/CustomDropdown";
 import { role } from "../../../constant/enum";
 import { SubmitBtn } from "../../../component/common/SubmitBtn";
 import PermissionsCheckbox from "../../../component/common/PermissionCheckbox";
-import { createUser } from "../api/userService";
+// import { createUser } from "../api/userService";
 
 const UserForm = () => {
   // Form state

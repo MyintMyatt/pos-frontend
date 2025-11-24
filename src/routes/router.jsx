@@ -40,7 +40,8 @@ const router = createBrowserRouter([
         path: "/admin",
         errorElement: <NotFound />,
         children: [
-          { element: <User />, index: true },
+             { element: <Home />, index: true },
+          { element: <User />,path:"user" },
           { element: <Menu />, path: "menus" },
           { element: <Inventory />, path: "inventory" },
           { element: <SalesHistory />, path: "sales-history" },

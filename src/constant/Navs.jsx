@@ -9,15 +9,15 @@ import {
 } from "lucide-react";
 
 export const admin_navs = [
-  // {
-  //   name: "Home",
-  //   path: "/admin",
-  //   title: "Hello Admin",
-  //   icon: <Home size={20} />,
-  // },
+  {
+    name: "Home",
+    path: "/admin",
+    title: "Hello Admin",
+    icon: <Home size={20} />,
+  },
   {
     name: "Users",
-    path: "/admin",
+    path: "/admin/user",
     title: "User Management",
     icon: <Users size={20} />,
   },

@@ -5,17 +5,19 @@ import path from "path";
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(),tailwindcss()],
+  plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src")
-      // "@assets":path.resolve(__dirname, "./src/assets")
     }
   },
-
-
-  server:{
-    host:'0.0.0.0',
-    port:5173
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://192.168.245.52:8080", // your backend
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""), // remove /api prefix
+      }
+    }
   }
 })

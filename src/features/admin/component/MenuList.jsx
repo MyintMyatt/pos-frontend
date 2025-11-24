@@ -5,7 +5,7 @@ import Dropdown from "../../../component/common/Dropdown";
 import Pagination from "../../../component/common/Pagination";
 import { useEffect } from "react";
 import { useState } from "react";
-import { categoryApi, menuApi } from "../api/menuService";
+
 import { useDispatch } from "react-redux";
 import { setCategories, setMenu } from "../../../reducer/menuSlice";
 import { useSelector } from "react-redux";
@@ -25,11 +25,11 @@ const MenuList = () => {
     const [totalPages, setTotalPages] = useState(0);
 
     //This will fetch categories
-    useEffect(() => {
-        categoryApi.fetchAllCategories().then((categories) => {
-            dispatch(setCategories(categories.data.data));
-        });
-    }, [dispatch]);
+    // useEffect(() => {
+    //     categoryApi.fetchAllCategories().then((categories) => {
+    //         dispatch(setCategories(categories.data.data));
+    //     });
+    // }, [dispatch]);
 
     //This is to fetch all the menus
     useEffect(() => {

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import CustomDropdown from "../../../component/common/CustomDropdown";
 import CustomInput from "../../../component/common/CustomInput";
 import { SubmitBtn } from "../../../component/common/SubmitBtn";
-import { adjust } from "../api/inventoryService";
+// import { adjust } from "../api/inventoryService";
 import toast from "react-hot-toast";
 import { closePopup } from "../../../reducer/popupSlice";
 
