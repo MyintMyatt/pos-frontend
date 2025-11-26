@@ -9,85 +9,13 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setCategories, setMenu } from "../../../reducer/menuSlice";
 import { useSelector } from "react-redux";
+import { useGetCategory } from "../hooks/useGetCatgory";
+import { useGetMenus } from "../../sales&payment/hooks/useGetMenus";
 
-const MenuList = () => {
-    const dispatch = useDispatch();
-    const category = [
-        "All",
-        ...useSelector((state) => state.menu.categories).map(
-            (category) => category.categoryName,
-        ),
-    ];
-    const [products, setProducts] = useState([]);
-    const [filteredProducts, setFilteredProducts] = useState(products);
-    const [filter, setFilter] = useState({ search: "", category: "All" });
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(0);
-
-    //This will fetch categories
-    // useEffect(() => {
-    //     categoryApi.fetchAllCategories().then((categories) => {
-    //         dispatch(setCategories(categories.data.data));
-    //     });
-    // }, [dispatch]);
-
-    //This is to fetch all the menus
-    useEffect(() => {
-        // Function to fetch and set menus
-        const fetchMenus = async () => {
-            try {
-                const menus = await menuApi.fetchAllMenus();
-                const menuData = menus.data.data.content;
-                if (menuData) {
-                    dispatch(setMenu(menuData))
-                    const temp = menuData.map((item) => ({
-                        id: item.menuId,
-                        name: item.menuName,
-                        price: item.price,
-                        category: item.category.categoryName,
-                        img: item.imageUrl,
-                    }));
-                    setProducts(temp);
-                }
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        // Initial fetch
-        fetchMenus();
-        // Set interval to fetch every 10 seconds (10000ms)
-        const intervalId = setInterval(fetchMenus, 10000);
-
-        // Cleanup on component unmount
-        return () => clearInterval(intervalId);
-    }, []); // empty dependency array = run once on mount
-
-    //This will calculate the total pages , manage filter and pagination
-    useEffect(() => {
-        const value = filter.search;
-        const category = filter.category;
-        let filteredData = products;
-        if (category != "All") {
-            filteredData = products.filter(
-                (product) => product.category === category,
-            );
-        }
-        if (value !== "") {
-            filteredData = filteredData.filter((product) =>
-                product.name.toLowerCase().includes(value.toLowerCase()),
-            );
-        }
-        const totalPages = Math.ceil(filteredData.length / 8);
-        filteredData = filteredData.slice(
-            (currentPage - 1) * 8,
-            currentPage * 8,
-        );
-        setTotalPages(totalPages);
-        setFilteredProducts(filteredData);
-    }, [products, filter, currentPage]);
+const MenuList = ({filteredProducts=[]}) => {
 
 
-    console.log("TOTAL PAGES",totalPages);
+ 
     
     return (
         <div className="h-full  px-4 py-2">
@@ -101,8 +29,8 @@ const MenuList = () => {
                     }
                 />
                 <div>
-                    <Dropdown
-                        items={category}
+                    {/* <Dropdown
+                        items={data}
                         onChange={(value) =>
                             setFilter((prev) => ({
                                 ...prev,
@@ -110,7 +38,7 @@ const MenuList = () => {
                             }))
                         }
                         placeholder="Category"
-                    />
+                    /> */}
                 </div>
             </div>
 
@@ -128,11 +56,11 @@ const MenuList = () => {
             </div>
 
             <div className="flex justify-center items-center relative -bottom-10">
-                <Pagination
+                {/* <Pagination
                     totalPages={totalPages}
                     current={currentPage}
                     onPageChange={(pageNo) => setCurrentPage(pageNo)}
-                />
+                /> */}
             </div>
         </div>
     );

@@ -6,14 +6,32 @@ import { popupInstance } from "../../../constant/enum";
 import { openPopup } from "../../../reducer/popupSlice";
 import MenuList from "../component/MenuList";
 import { useSelector, useDispatch } from "react-redux";
-import { setSuccessPopUp } from "../../../reducer/menuSlice";
+import { setCategories, setSuccessPopUp } from "../../../reducer/menuSlice";
+import { useGetCategory } from "../hooks/useGetCatgory";
+import { useGetMenus } from "../../sales&payment/hooks/useGetMenus";
+
 
 const Menu = () => {
+
+const{data}=useGetCategory();
+const{data:menus}=useGetMenus(0,"",200);
+
+
+console.log(menus);
+
+
     const showStatusPopUp = useSelector((state) => state.menu.successPopUp);
     const dispatch = useDispatch();
     const handlePopup = (content) => {
         dispatch(openPopup(content));
     };
+
+
+
+
+ 
+
+    dispatch(setCategories(data?.data))
 
     return (
         <div className="h-screen relative px-4 py-2">
@@ -30,7 +48,7 @@ const Menu = () => {
                     />
                 </StatusPopup>
             )}
-            <MenuList />
+            <MenuList  />
             <div className="absolute bottom-25 right-10">
                 <FloatBtn onClick={() => handlePopup(popupInstance.MENU)} />
             </div>

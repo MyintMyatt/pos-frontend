@@ -19,7 +19,7 @@ const MenuCard = forwardRef(
 
         {/* Add to Cart Button */}
         <button
-        disabled={stock===0}
+            disabled={stock===0}
           onClick={(e) => {
             e.stopPropagation();
             onClick && onClick(id);

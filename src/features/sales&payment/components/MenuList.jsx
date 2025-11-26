@@ -40,10 +40,10 @@ const MenuList = ({ data = [] }) => {
 
   return (
     <div className=" h-full px-4 py-2">
-      <div className="flex justify-between">
+      {/* <div className="flex justify-between">
         <SearchBar ref={searchRef} onChange={handleSearch} />
-        <div>{/* <Dropdown items={category} placeholder="Category" /> */}</div>
-      </div>
+       
+      </div> */}
 
       <div className="grid grid-cols-4 gap-1.5 h-3/4 mt-1.5 p-1.5">
         {products.map((product) => (

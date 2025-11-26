@@ -8,6 +8,8 @@ import DateRangePicker from "../../../component/common/DateRangePicker";
 
 import { useEffect, useState } from "react";
 import InventoryMovementList from "../component/InventoryMovementList";
+import { useGetMenus } from "../../sales&payment/hooks/useGetMenus";
+import { setMenu } from "../../../reducer/menuSlice";
 
 const Inventory = () => {
   const [inventory, setInventory] = useState([]);
@@ -55,6 +57,11 @@ const Inventory = () => {
   a.click();
   URL.revokeObjectURL(url);
 };
+
+const {data}=useGetMenus(0,"",40)
+console.log(data?.data.content);
+dispatch(setMenu(data?.data.content))
+
 
 
   return (

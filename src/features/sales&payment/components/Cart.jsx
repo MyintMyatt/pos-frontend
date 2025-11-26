@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { getDate } from "../../../utils/getCurrentDate";
 import CartItem from "./CartItem";
 import { useSelector, useDispatch } from "react-redux";
 import { addQty, clearCart, removeQty } from "../reducers/cartSlice";
-import { sales } from "../api/saleService";
 import toast from "react-hot-toast";
+import { useSale } from "../hooks/useSale";
 
 const Cart = () => {
+const [loading,setIsLoading]=useState(false);
+
+
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.products);
   const subTotalAmt = useSelector((state) => state.cart.totalAmt);
@@ -15,56 +18,31 @@ const Cart = () => {
   const total = (subTotalAmt + subTotalAmt * taxPercent).toFixed(2);
   const date = getDate();
 
-  const UID = localStorage.getItem("userId");
-
-const [isLoading, setIsLoading] = React.useState(false);
-
-const handleSales = async () => {
-  if (cartItems.length === 0) {
-    toast.error("No items in cart!");
-    return;
-  }
-
-  const UID = localStorage.getItem("userId");
-  const date = getDate();
-
   const formData = {
-    userId: UID,
-    saleDate: date,
+    
     items: cartItems.map((item) => ({
       menuId: item.id,
       quantity: item.qty,
-      price: item.price,
     })),
     taxIds: ["TAX25110001"],
   };
 
-  try {
+
+ 
+  const { loading: saleLoading, submitSale } = useSale();
+
+  const handleSale = async () => {
     setIsLoading(true);
-    const response = await sales(formData);
-
-    if (!response || (response.status !== 201 && response.status !== 200)) {
-      toast.error( "Failed to complete sale");
-      return;
-    }  dispatch(clearCart());
-    toast.success("Sale success ✅");
-
-   
-  } catch (error) {
-    console.log("SALE ERROR:", error);
-
-    if (error.response) {
-      toast.error(error.response.data?.data || "Server error");
-    } else if (error.request) {
-      toast.error("Network error: Check your connection!");
-    } else {
-      toast.error("Unexpected error occurred.");
-    }
-
-  } finally {
+    await submitSale(formData);   // pass form to hook function
     setIsLoading(false);
-  }
-};
+  };
+
+
+
+  
+
+
+
 
 
   return (
@@ -113,11 +91,11 @@ const handleSales = async () => {
       {/* Checkout Button */}
       <div className="p-4 bg-white border-t sticky bottom-0">
       <button
-  onClick={handleSales}
-  disabled={cartItems.length === 0 || isLoading}
+  onClick={handleSale}
+  disabled={cartItems.length === 0 || loading}
   className="w-full py-3 rounded-md bg-slate-900 cursor-pointer text-white font-semibold hover:bg-slate-700 transition disabled:bg-gray-400"
 >
-  {isLoading ? "Processing..." : "Checkout"}
+  {loading ? "Processing..." : "Checkout"}
 </button>
 
       </div>

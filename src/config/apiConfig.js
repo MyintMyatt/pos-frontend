@@ -11,9 +11,12 @@ export const getApiEndpoint = (endpoint) => {
 export const API_ENDPOINTS={
   LOGIN:"/login",
   GET_MENU:"/admin/menu",
+  MENU:"/admin/menu",
   SALE:"/cashier/sales",
   GET_SALE:"/cashier/sales",
-  INVENTORY:"/admin/inventory"
+  INVENTORY:"/admin/inventory",
+  GET_CATEGORY:"/admin/category",
+  UPLOAD:"/admin/menu/image-upload/"
 
 }
 

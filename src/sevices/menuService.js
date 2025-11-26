@@ -17,3 +17,28 @@ export const getMenus = async ({ page, keyword, size = 6 }) => {
     throw error;
   }
 };
+
+export const CreateMenu = async (form) => {
+  try {
+    const response = await apiClient.post(API_ENDPOINTS.MENU, form);
+    return response.data;
+  } catch (error) {
+    throw error;
+    console.log(error);
+  }
+};
+
+export const uploadMenuImg = async (file, menuId) => {
+
+  
+  try {
+    const response = await apiClient.post(
+      API_ENDPOINTS.UPLOAD+`${menuId}`,
+      file,
+      { headers: { "Content-Type": "multipart/form-data" } }
+    );
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
