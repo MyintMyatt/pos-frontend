@@ -9,6 +9,6 @@ export const defaultpwd = "jwdPos@12345";
 
 export const role = [
   { label: "ADMIN", value: "ADMIN" },
-  { label: "SUPERVISOR", value: "SUPERVISOR" },
+  { label: "SUPERADMIN", value: "SUPERADMIN" },
   { label: "CASHIER", value: "CASHIER" },
 ];

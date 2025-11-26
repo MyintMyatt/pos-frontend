@@ -1,19 +1,14 @@
-
-import axios from "axios";
-import { API_ENDPOINTS } from "../../../config/apiConfig";
-
-
-
-
+import { API_ENDPOINTS, getApiEndpoint } from "../config/apiConfig";
+import apiClient from "../api/apiClient";
 export const login = async (form) => {
   try {
-    const response = await axios.post(API_ENDPOINTS.AUTH.LOGIN, form);
+    console.log(API_ENDPOINTS.LOGIN);
+
+    const response = await apiClient.post("/login", form);
     console.log(response);
-    console.log("FROM PARENR");
-    
-    
+
     console.log("Login response:", response.data);
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error("Login error:", error);
 

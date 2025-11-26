@@ -1,42 +1,44 @@
-const BASE_URL = import.meta.env.VITE_API_URL;
 
-const AUTH = {
-  LOGIN: `${BASE_URL}/login`,
-  REGISTER: `${BASE_URL}/auth/register`,
+export const getApiBaseUrl = () => {
+  return import.meta.env.VITE_API_URL;
 };
 
-const USERS = {
-  FETCH: `${BASE_URL}/admin/user`,
-  CREATE:`${BASE_URL}/admin/user/register`
-  // UPDATE: (id) => `${BASE_URL}/users/${id}`, // dynamic URL
-  // DELETE: (id) => `${BASE_URL}/users/${id}`, // dynamic URL
-};
-
-const INVENTORY = {
-  FETCH: `${BASE_URL}/admin/inventory`,
-  POST: `${BASE_URL}/admin/inventory`,
-};
-
-const DISCOUNT = {
-  FETCH: `${BASE_URL}/admin/menu-discount`,
-  POST: `${BASE_URL}/admin/menu-discount`,
-};
-
-const CASHIER = {
-  POST: `${BASE_URL}/cashier/sales`,
-  FETCH: `${BASE_URL}/cashier/sales`,
-};
-
-
-const MENU={
-  FETCH:`${BASE_URL}/admin/menu`
+export const getApiEndpoint = (endpoint) => {
+  return `${getApiBaseUrl()}${endpoint}`;
 }
 
-export const API_ENDPOINTS = {
-  AUTH,
-  USERS,
-  INVENTORY,
-  DISCOUNT,
-  CASHIER,
-  MENU
+
+export const API_ENDPOINTS={
+  LOGIN:"/login",
+  GET_MENU:"/admin/menu",
+  MENU:"/admin/menu",
+  SALE:"/cashier/sales",
+  GET_SALE:"/cashier/sales",
+  INVENTORY:"/admin/inventory",
+  GET_CATEGORY:"/admin/category",
+  UPLOAD:"/admin/menu/image-upload/"
+
+}
+
+
+
+
+
+export const getAuthHeaders = () => {
+  const token = localStorage.getItem("token");
+  return token
+    ? {
+        Authorization: `Bearer ${token}`,
+      }
+    : {};
 };
+
+export const getAuthConfig = (additionalConfig = {}) => {
+  return {
+    ...additionalConfig,
+    headers: {
+      ...getAuthHeaders(),
+      ...additionalConfig.headers,
+    },
+  };
+}

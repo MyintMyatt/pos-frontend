@@ -4,7 +4,7 @@ import FloatBtn from "../../../component/common/FloatBtn";
 import SearchBar from "../../../component/common/SearchBar";
 import { openPopup } from "../../../reducer/popupSlice";
 import { popupInstance } from "../../../constant/enum";
-import { getAlluser } from "../api/userService";
+// import { getAlluser } from "../api/userService";
 import { useEffect, useState } from "react";
 import UserList from "../component/UserList";
 

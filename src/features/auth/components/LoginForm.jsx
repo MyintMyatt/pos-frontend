@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import CustomInput from "../../../component/common/CustomInput";
 import PasswordInput from "../../../component/common/PasswordField";
 import { SubmitBtn } from "../../../component/common/SubmitBtn";
-import { login } from "../service/authService";
+
 import { useNavigate } from "react-router-dom";
 import { role as Roles } from "../../../constant/enum";
 import toast from "react-hot-toast";
+import { login } from "../../../sevices/authService";
 
 const LoginForm = () => {
   const navigate = useNavigate();

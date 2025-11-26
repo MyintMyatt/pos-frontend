@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useInventory } from "../hooks/useInventory";
+import { useGetCategory } from "../hooks/useGetCatgory";
+import { useEffect, useState } from "react";
+import { SubmitBtn } from "../../../component/common/SubmitBtn";
 import CustomDropdown from "../../../component/common/CustomDropdown";
 import CustomInput from "../../../component/common/CustomInput";
-import { SubmitBtn } from "../../../component/common/SubmitBtn";
-import { adjust } from "../api/inventoryService";
 import toast from "react-hot-toast";
-import { closePopup } from "../../../reducer/popupSlice";
 
 const InventoryForm = () => {
   const dispatch = useDispatch();
+  
+  const { data, loading, err, submitInventory } = useInventory();
+  const { data: categories = [] } = useGetCategory();
 
-  // Redux state
-  const allCategories = useSelector((state) => state.menu.categories);
+  const allCategories = categories?.data || [];
   const allMenu = useSelector((state) => state.menu.menu);
 
-  // Dropdown options
   const CategoryOptions = allCategories.map((category) => ({
     value: category.categoryId,
     label: category.categoryName,
@@ -25,43 +26,33 @@ const InventoryForm = () => {
     { label: "DAMAGE", value: "DAMAGE" },
   ];
 
-  const userID = localStorage.getItem("userId");
-
-  // Form state
   const [formData, setFormData] = useState({
     category: "",
     menu: "",
     type: "",
-    currentQty: "",
     updatedStock: "",
+    currentQty: "",
     uomQty: "Qty",
-    userId: userID,
   });
 
-  // Handle input changes
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  // Filter menus based on selected category
   const filteredMenu = allMenu
     .filter((menu) => menu.category.categoryId === formData.category)
     .map((menu) => ({ value: menu.menuId, label: menu.menuName }));
 
-  // Auto-update currentQty when menu changes
   useEffect(() => {
-    const selectedMenu = allMenu.find((menu) => menu.menuId === formData.menu);
-    if (selectedMenu) {
-      setFormData((prev) => ({
-        ...prev,
-        currentQty: selectedMenu.stockQty || "",
-      }));
-    } else {
-      setFormData((prev) => ({ ...prev, currentQty: "" }));
-    }
+    const selectedMenu = allMenu.find(
+      (menu) => menu.menuId === formData.menu
+    );
+    setFormData((prev) => ({
+      ...prev,
+      currentQty: selectedMenu?.stockQty || "",
+    }));
   }, [formData.menu, allMenu]);
 
-  // Auto-update uomQty based on currentQty
   useEffect(() => {
     setFormData((prev) => ({
       ...prev,
@@ -69,48 +60,35 @@ const InventoryForm = () => {
     }));
   }, [formData.currentQty]);
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Simple validation
     if (!formData.category) return toast.error("Category is required");
     if (!formData.menu) return toast.error("Menu is required");
     if (!formData.updatedStock) return toast.error("Updated Stock is required");
 
     const payload = {
       menuId: formData.menu,
-      movementType: formData.type?.toUpperCase() || "SALE",
+      movementType: formData.type.toUpperCase(),
       quantity: Number(formData.updatedStock),
       uom: "Qty",
-      createdBy: userID || "unknown",
     };
 
+
+    console.log(payload);
+    
+console.log("UPDATE...");
+
     try {
-      const response = await adjust(payload);
+      console.log("HER");
+      
 
-      if (response.status===200) {
-        toast.success("Inventory updated successfully!");
+      await submitInventory(payload);
 
-        // Reset form
-        setFormData({
-          category: "",
-          menu: "",
-          type: "",
-          currentQty: "",
-          updatedStock: "",
-          uomQty: "Qty",
-          userId: userID,
-        });
-
-        // Close popup if applicable
-        dispatch(closePopup());
-      } else {
-        toast.error("Failed to update inventory.");
-      }
+      if(data){ toast.success("Update Success");}
+     
     } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong. Please try again.");
+      toast.error("Update Failed");
     }
   };
 
@@ -138,12 +116,6 @@ const InventoryForm = () => {
           value={formData.type}
           onChange={(val) => handleChange("type", val)}
         />
-        {/* <CustomInput
-          className="w-1/2"
-          placeholder="Current Qty"
-          value={formData.currentQty}
-          disabled
-        /> */}
       </div>
 
       <div className="flex gap-x-3 w-full">
@@ -154,7 +126,6 @@ const InventoryForm = () => {
           value={formData.updatedStock}
           onChange={(e) => handleChange("updatedStock", e.target.value)}
         />
-        {/* <CustomInput type="text" disabled value={formData.uomQty} placeholder="Qty" /> */}
       </div>
 
       <SubmitBtn type="submit" name="UPDATE" className="py-2" />

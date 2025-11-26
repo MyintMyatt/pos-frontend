@@ -2,7 +2,7 @@ import { LucideShoppingBag } from "lucide-react";
 import { forwardRef } from "react";
 
 const MenuCard = forwardRef(
-  ({ id, img, category, price, name, onClick, onCardClick }, ref) => {
+  ({ id, img, category, price, name, stock, onClick, onCardClick }, ref) => {
     return (
       <div
         onClick={onCardClick}
@@ -19,14 +19,16 @@ const MenuCard = forwardRef(
 
         {/* Add to Cart Button */}
         <button
+            disabled={stock===0}
           onClick={(e) => {
-            e.stopPropagation(); // Prevent triggering card click
+            e.stopPropagation();
             onClick && onClick(id);
           }}
           ref={ref}
           className="absolute right-3 bottom-14 p-2 rounded-full bg-slate-900 hover:bg-slate-700 text-white transition-colors duration-200"
           aria-label="Add to cart"
         >
+
           <LucideShoppingBag size={18} />
         </button>
 
@@ -42,7 +44,17 @@ const MenuCard = forwardRef(
             >
               {category}
             </span>
+
+            {/* Stock */}
+            <span
+              className={`text-sm mt-1 ${
+                stock > 0 ? "text-green-600" : "text-red-500"
+              }`}
+            >
+              {stock > 0 ? `In stock: ${stock}` : "Out of stock"}
+            </span>
           </div>
+
           <h4 className="text-md font-semibold">{price}$</h4>
         </div>
       </div>

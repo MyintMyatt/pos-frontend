@@ -3,7 +3,7 @@ import React from "react";
 const SalesHistoryList = ({ data = [] }) => {
 
   const handleDownloadCSV = () => {
-    const headers = ["Sales ID", "Sale Date", "Cashier", "Sub Total", "Total Amount"];
+    const headers = ["Sales ID", "Sale Date", "Cashier", "Sub Total($)", "Total Amount($)"];
     const rows = data.map((sale) => [
       sale.salesId,
       sale.saleDate,
@@ -46,8 +46,8 @@ const SalesHistoryList = ({ data = [] }) => {
               <th className="p-3">Sales ID</th>
               <th className="p-3">Sale Date</th>
               <th className="p-3">Cashier</th>
-              <th className="p-3">Sub Total</th>
-              <th className="p-3">Total Amount</th>
+              <th className="p-3">Sub Total($)</th>
+              <th className="p-3">Total Amount($)</th>
               <th className="p-3">Items</th>
             </tr>
           </thead>

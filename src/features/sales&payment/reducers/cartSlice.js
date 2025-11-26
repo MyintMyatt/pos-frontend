@@ -12,28 +12,40 @@ export const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const newItem = action.payload;
-      console.log(newItem);
-      
-      const existItem = state.products.find((item) => item.id == newItem.menuId);
-console.log(existItem);
 
+      const stockQty = newItem.inventory?.quantity ?? 0;
+
+      const existItem = state.products.find(
+        (item) => item.id === newItem.menuId
+      );
+
+      // If no existing item → create new
       if (!existItem) {
+        // If no stock → Cannot add
+        if (stockQty < 1) return;
+
         state.products.push({
           id: newItem.menuId,
           name: newItem.menuName,
           price: Number(newItem.price),
           category: newItem.category,
           qty: 1,
+          stock: stockQty, // store stock
           totalPrice: Number(newItem.price),
         });
       } else {
+        // If qty already equals stock → stop
+        if (existItem.qty >= existItem.stock) return;
+
         existItem.qty++;
         existItem.totalPrice = existItem.qty * existItem.price;
       }
 
-      // Update cart totals
       state.totalItems++;
-      state.totalAmt = state.products.reduce((sum, p) => sum + p.totalPrice, 0);
+      state.totalAmt = state.products.reduce(
+        (sum, p) => sum + p.totalPrice,
+        0
+      );
     },
 
     addQty: (state, action) => {
@@ -41,10 +53,16 @@ console.log(existItem);
       const item = state.products.find((p) => p.id === itemId);
 
       if (item) {
+        // Prevent exceeding stock
+        if (item.qty >= item.stock) return;
+
         item.qty++;
         item.totalPrice = item.qty * item.price;
         state.totalItems++;
-        state.totalAmt = state.products.reduce((sum, p) => sum + p.totalPrice, 0);
+        state.totalAmt = state.products.reduce(
+          (sum, p) => sum + p.totalPrice,
+          0
+        );
       }
     },
 
@@ -58,25 +76,25 @@ console.log(existItem);
           item.totalPrice = item.qty * item.price;
           state.totalItems--;
         } else {
-          // Remove item completely when qty hits 0
+          // Remove when qty = 0
           state.products = state.products.filter((p) => p.id !== itemId);
           state.totalItems--;
         }
-        state.totalAmt = state.products.reduce((sum, p) => sum + p.totalPrice, 0);
+
+        state.totalAmt = state.products.reduce(
+          (sum, p) => sum + p.totalPrice,
+          0
+        );
       }
     },
 
-
     clearCart: (state) => {
-  state.products = [];
-  state.totalItems = 0;
-  state.totalAmt = 0;
-}
-
-
-    
+      state.products = [];
+      state.totalItems = 0;
+      state.totalAmt = 0;
+    },
   },
 });
 
-export const { addToCart, addQty, removeQty,clearCart } = cartSlice.actions;
+export const { addToCart, addQty, removeQty, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;

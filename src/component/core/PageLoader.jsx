@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
-import Loading from "@/component/Loading";
+import Loading from '../common/Loading';
+
 
 export default function PageLoader(Component){
     return function WrappedComponent(props){
