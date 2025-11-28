@@ -13,8 +13,10 @@ import { useGetMenus } from "../../sales&payment/hooks/useGetMenus";
 
 const Menu = () => {
 
+    const size=50;
+
 const{data}=useGetCategory();
-const{data:menus}=useGetMenus(0,"",200);
+const{data:menus,loading}=useGetMenus(0,"",size);
 
 
 console.log(menus);
@@ -25,11 +27,6 @@ console.log(menus);
     const handlePopup = (content) => {
         dispatch(openPopup(content));
     };
-
-
-
-
- 
 
     dispatch(setCategories(data?.data))
 
@@ -48,7 +45,7 @@ console.log(menus);
                     />
                 </StatusPopup>
             )}
-            <MenuList  />
+            <MenuList filteredProducts={menus?.data.content} loading={loading}  />
             <div className="absolute bottom-25 right-10">
                 <FloatBtn onClick={() => handlePopup(popupInstance.MENU)} />
             </div>

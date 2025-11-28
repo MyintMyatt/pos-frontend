@@ -15,7 +15,7 @@ const Sales = () => {
 console.log(Cates);
 
 
-const [page,setPage]=useState(3)
+const [page,setPage]=useState(1)
 
 
   const HandleChange = (value) => {
