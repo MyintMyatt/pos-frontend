@@ -16,7 +16,8 @@ export const API_ENDPOINTS={
   GET_SALE:"/cashier/sales",
   INVENTORY:"/admin/inventory",
   GET_CATEGORY:"/admin/category",
-  UPLOAD:"/admin/menu/image-upload/"
+  UPLOAD:"/admin/menu/image-upload/",
+  DELETE_MENU:"/admin/menu/"
 
 }
 

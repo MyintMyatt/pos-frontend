@@ -2,29 +2,26 @@ import React, { useState, useRef } from "react";
 import CustomInput from "../../../component/common/CustomInput";
 import CustomDropdown from "../../../component/common/CustomDropdown";
 import { SubmitBtn } from "../../../component/common/SubmitBtn";
-import { Image, Upload } from "lucide-react";
+import { Image } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
 import toast from "react-hot-toast";
 import { useMenu } from "../hooks/useMenu";
+import { useUpload } from "../hooks/useUploadMenu";
 import { closePopup } from "../../../reducer/popupSlice";
 
 const MenuForm = () => {
-  const [img, setImg] = useState(null);
   const dispatch = useDispatch();
   const imageInputRef = useRef(null);
+  const [img, setImg] = useState(null);
 
-  const allCategories = useSelector(
-    (state) => state.menu?.categories ?? []
-  );
-
+  // Fetch categories
+  const allCategories = useSelector((state) => state.menu?.categories ?? []);
   const categories = allCategories.map((category) => ({
     value: category.categoryId,
     label: category.categoryName,
   }));
 
-
-
-
+  // Form data state
   const [formData, setFormData] = useState({
     name: "",
     price: "",
@@ -32,35 +29,21 @@ const MenuForm = () => {
     uom: "Qty",
     stock: "",
     description: "",
-    imageFile: null,
   });
 
+  const { submitMenu,loading:menuLoading } = useMenu();
+  const { uploadImg,loading } = useUpload();
+
+  // Handle image selection
   const handleOnImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
     setImg(file);
-    
-    
     toast.success("Image selected!");
   };
-console.log(img);
 
-
-const imgData=new FormData()
-imgData.append("imgSe",imgData)
-console.log(imgData);
-
-
-  const { submitMenu, data:menuId, loading, err } = useMenu();
-
-
-
-  const {data}=useUploadMenu()
-
-
-
-  
-
+  // Submit handler
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -77,56 +60,54 @@ console.log(imgData);
       quantity: formData.stock,
       description: formData.description,
     };
+
+    // 1️⃣ Create menu
+    const createdMenu = await submitMenu(payload);
+    console.log(createdMenu);
     
-    await submitMenu(payload);
-console.log("SUCC");
 
+    if (!createdMenu) {
+      toast.error("Failed to create menu.");
+      return;
+    }
 
+    const menuId = createdMenu.menuId;
+    console.log("Created Menu ID:", menuId);
 
-
-
-
-
-    if (img && menuId  ) {
-        console.log("Upoading Img");
-        console.log("IMG",img);
-        
-      const file = new FormData();
-      file.append("file", img);
-
-
+    // 2️⃣ Upload image
+    if (img) {
+      const imgForm = new FormData();
+      imgForm.append("file", img);
 
       try {
-        await uplad=
+        await uploadImg(imgForm, menuId);
         toast.success("Image uploaded successfully!");
-      } catch (err) {
-        toast.error("Menu created, but image upload failed");
+      } catch (error) {
+        toast.error("Menu created, but image upload failed.");
       }
     }
-    dispatch(closePopup())
-    toast.success("Menu created successfully!");
+ dispatch(closePopup());
+    toast.success("Menu created!");
+   
   };
 
   return (
     <div className="py-2">
       <form className="flex flex-col gap-3" onSubmit={handleSubmit}>
+        
         <CustomInput
           type="text"
           placeholder="Menu Name*"
           value={formData.name}
-          onChange={(e) =>
-            setFormData({ ...formData, name: e.target.value })
-          }
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           required
         />
 
         <CustomInput
           type="number"
-          placeholder="Price($)*"
+          placeholder="Price*"
           value={formData.price}
-          onChange={(e) =>
-            setFormData({ ...formData, price: e.target.value })
-          }
+          onChange={(e) => setFormData({ ...formData, price: e.target.value })}
           required
         />
 
@@ -134,18 +115,14 @@ console.log("SUCC");
           options={categories}
           value={formData.category}
           placeholder="Select Category*"
-          onChange={(value) =>
-            setFormData({ ...formData, category: value })
-          }
+          onChange={(value) => setFormData({ ...formData, category: value })}
         />
 
         <CustomInput
           type="number"
           placeholder="Stock*"
           value={formData.stock}
-          onChange={(e) =>
-            setFormData({ ...formData, stock: e.target.value })
-          }
+          onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
           required
         />
 
@@ -159,15 +136,17 @@ console.log("SUCC");
           required
         />
 
-        {/* Image Upload */}
+        {/* Image Upload Box */}
         <div
-          className="flex w-full border border-slate-300 items-center justify-center p-2 hover:bg-slate-100 cursor-pointer"
+          className="flex w-full border border-slate-300 items-center justify-center p-2 
+          hover:bg-slate-100 cursor-pointer rounded-md"
           onClick={() => imageInputRef.current.click()}
         >
           <div className="flex flex-col items-center text-slate-500">
             <Image />
             {img ? img.name : "Drop / Select Image"}
           </div>
+
           <input
             type="file"
             ref={imageInputRef}
@@ -177,7 +156,7 @@ console.log("SUCC");
           />
         </div>
 
-        <SubmitBtn name="Create Menu" className="py-2.5" />
+        <SubmitBtn loading={menuLoading}  name={"create"} className="py-2.5" />
       </form>
     </div>
   );

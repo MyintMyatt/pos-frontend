@@ -11,8 +11,17 @@ import { setCategories, setMenu } from "../../../reducer/menuSlice";
 import { useSelector } from "react-redux";
 import { useGetCategory } from "../hooks/useGetCatgory";
 import { useGetMenus } from "../../sales&payment/hooks/useGetMenus";
+import MenuActionCard from "./MenuActionCard";
 
-const MenuList = ({filteredProducts=[]}) => {
+const MenuList = ({filteredProducts=[],loading}) => {
+
+
+
+    if(loading) {
+        return(
+            <div>Loading.....</div>
+        )
+    }
 
 
  
@@ -44,12 +53,12 @@ const MenuList = ({filteredProducts=[]}) => {
 
             <div className="grid grid-cols-4 gap-1.5 h-3/4 mt-1.5 p-1.5">
                 {filteredProducts.map((product) => (
-                    <MenuCard
-                        img={product.img || ""}
-                        category={product.category}
-                        key={product.id}
-                        id={product.id}
-                        name={product.name}
+                    <MenuActionCard
+                        img={product.imageUrl || ""}
+                        category={product.category.categoryName}
+                        key={product.menuId}
+                        id={product.menuId}
+                        name={product.menuName}
                         price={product.price}
                     />
                 ))}
