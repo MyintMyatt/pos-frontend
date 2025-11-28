@@ -1,33 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { getMenus } from "../../../sevices/menuService";
 
-export const useGetMenus = (page, keyword, size) => {
-
-
-
+export const useGetMenus = (page, keyword, size,categoryId) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const fetchMenu = useCallback(async () => {
+    try {
+      setLoading(true);
+      const menu = await getMenus({ page, keyword, size,categoryId});
+      setData(menu);
+      setError(null);
+    } catch (err) {
+      setError(err);
+    } finally {
+      setLoading(false);
+    }
+  }, [page, keyword, size,categoryId]);
+
+
   useEffect(() => {
-
-
-    console.log("S",size);
-    
-    const fetchMenu = async () => {
-      try {
-        setLoading(true);
-        const menu = await getMenus({page, keyword, size});
-        setData(menu);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchMenu();
-  }, [page, keyword, size]);
+  }, [fetchMenu]);
 
-  return { data, loading, error };
+  // Manual refetch
+  const reFetch = () => {
+    fetchMenu();
+  };
+
+  return { data, loading, error, reFetch };
 };

@@ -1,7 +1,7 @@
 import apiClient from "../api/apiClient";
 import { API_ENDPOINTS } from "../config/apiConfig";
 
-export const getMenus = async ({ page, keyword, size = 6 }) => {
+export const getMenus = async ({ page, keyword, size = 6,categoryId}) => {
   const token = localStorage.getItem("token");
 
   try {
@@ -13,6 +13,7 @@ export const getMenus = async ({ page, keyword, size = 6 }) => {
         page,
         keyword,
         size,
+        categoryId
       },
     });
 

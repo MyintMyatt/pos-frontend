@@ -8,11 +8,21 @@ import toast from "react-hot-toast";
 import { useMenu } from "../hooks/useMenu";
 import { useUpload } from "../hooks/useUploadMenu";
 import { closePopup } from "../../../reducer/popupSlice";
+import { useGetMenus } from "../../sales&payment/hooks/useGetMenus";
+import { triggerRefresh } from "../../../reducer/menuSlice";
+
 
 const MenuForm = () => {
+
+
+
   const dispatch = useDispatch();
+  const [btnLoad,setBtnLoad]=useState(false);
   const imageInputRef = useRef(null);
   const [img, setImg] = useState(null);
+    
+
+
 
   // Fetch categories
   const allCategories = useSelector((state) => state.menu?.categories ?? []);
@@ -30,8 +40,8 @@ const MenuForm = () => {
     stock: "",
     description: "",
   });
-
-  const { submitMenu,loading:menuLoading } = useMenu();
+const fetchMenu=useGetMenus()
+  const { submitMenu,loading:menuLoading,reFetch } = useMenu();
   const { uploadImg,loading } = useUpload();
 
   // Handle image selection
@@ -51,6 +61,9 @@ const MenuForm = () => {
       toast.error("Fill all required fields");
       return;
     }
+
+    setBtnLoad(true);
+
 
     const payload = {
       menuName: formData.name,
@@ -86,7 +99,12 @@ const MenuForm = () => {
         toast.error("Menu created, but image upload failed.");
       }
     }
+    
+    setBtnLoad(false);
+    dispatch(triggerRefresh());
  dispatch(closePopup());
+ 
+
     toast.success("Menu created!");
    
   };
@@ -156,7 +174,7 @@ const MenuForm = () => {
           />
         </div>
 
-        <SubmitBtn loading={menuLoading}  name={"create"} className="py-2.5" />
+        <SubmitBtn loading={btnLoad}  name={"create"} className="py-2.5" />
       </form>
     </div>
   );

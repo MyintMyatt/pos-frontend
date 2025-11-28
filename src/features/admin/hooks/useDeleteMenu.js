@@ -1,20 +1,26 @@
 import { useState } from "react";
-import { delMenu } from "../../../sevices/menuService"
+import { delMenu } from "../../../sevices/menuService";
+import { useDispatch } from "react-redux";
+import { triggerRefresh } from "../../../reducer/menuSlice";
 
-export const useDeleteMenu=async(menuId)=>{
-const [loading,setLoading]=useState(true);
-const [err,setErr]=useState(null);
+export const useDeleteMenu = () => {
+    const dispatch=useDispatch()
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState(null);
 
-try {
-    const response=await delMenu(menuId);
-    return response;
-    
-} catch (error) {
-    console.log(error);
-    
-}
+  const deleteMenuById = async (menuId) => {
+    try {
+      const response = await delMenu(menuId);
+   
+      return response;
+      
+    } catch (error) {
+      setErr(error);
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-
-
-return
-}
+  return { loading, err, deleteMenuById };
+};
