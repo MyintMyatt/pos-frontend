@@ -60,13 +60,7 @@ const MenuList = ({ data = [] }) => {
         ))}
       </div>
 
-      <div className="flex justify-center items-center relative -bottom-24">
-        <Pagination
-          totalPages={totalPages}
-          current={currentPage}
-          onPageChange={(newPage) => setCurentPage(newPage)}
-        />
-      </div>
+   
     </div>
   );
 };

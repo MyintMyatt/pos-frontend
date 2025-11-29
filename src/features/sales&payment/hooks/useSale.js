@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { sales } from "../../../sevices/saleService";
 import toast from "react-hot-toast";
 import { clearCart } from "../reducers/cartSlice";
+import { triggerRefresh } from "../../../reducer/menuSlice";
 
 export const useSale = () => {
   const [loading, setIsLoading] = useState(false);
@@ -27,7 +28,7 @@ export const useSale = () => {
         toast.error("Failed to complete sale");
         return;
       }
-
+        dispatch(triggerRefresh())
       dispatch(clearCart());
       toast.success("Sale success");
 

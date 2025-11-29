@@ -33,7 +33,8 @@ const [loading,setIsLoading]=useState(false);
 
   const handleSale = async () => {
     setIsLoading(true);
-    await submitSale(formData);   // pass form to hook function
+    await submitSale(formData); 
+
     setIsLoading(false);
   };
 

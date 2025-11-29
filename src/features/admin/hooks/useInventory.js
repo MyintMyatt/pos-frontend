@@ -13,7 +13,7 @@ export const useInventory = () => {
     try {
       const response = await inventory(form);
       setData(response.data);
-      return response.data;
+      return response.status;
     } catch (error) {
       setErr(error);
       throw error;

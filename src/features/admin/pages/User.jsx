@@ -4,35 +4,31 @@ import FloatBtn from "../../../component/common/FloatBtn";
 import SearchBar from "../../../component/common/SearchBar";
 import { openPopup } from "../../../reducer/popupSlice";
 import { popupInstance } from "../../../constant/enum";
-// import { getAlluser } from "../api/userService";
-import { useEffect, useState } from "react";
 import UserList from "../component/UserList";
+import { useGetUsers } from "../hooks/useGetUsers";
+import { useEffect } from "react";
+import { clearRefresh } from "../../../reducer/userSlice";
 
 
 const User = () => {
 
+const {needsRefresh}=useSelector(state=>state.users)
 
-  const[users,setUsers]=useState([]);
-
-useEffect(()=>{
-    const fetchUsers=async()=>{
-    try{
-      const response=await getAlluser();
-      console.log(response);
-
-
-      if(response.status===200){
-        setUsers(response.data);
-      }
-      
-    }catch(error){
-        console.log(error);
-        
-    }
-  };fetchUsers()
-},[])
-  
   const dispatch = useDispatch();
+
+  const {data,reFetchUser,loading}=useGetUsers()
+
+console.log(data?.data);
+
+
+useEffect(() => {
+  if (needsRefresh) {
+    reFetchUser();
+    dispatch(clearRefresh());
+  }
+}, [needsRefresh]);
+
+
 
   const handlePopup = (content) => {
     dispatch(openPopup(content));
@@ -46,7 +42,7 @@ useEffect(()=>{
 
       {/* LIST VIEW */}
       <div className="h-full">
-        <UserList users={users} />
+        <UserList  loading={loading} users={data?.data}/>
       </div>
 
       {/* Call to action  */}

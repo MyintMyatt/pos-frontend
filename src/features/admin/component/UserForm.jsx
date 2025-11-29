@@ -4,9 +4,19 @@ import CustomDropdown from "../../../component/common/CustomDropdown";
 import { role } from "../../../constant/enum";
 import { SubmitBtn } from "../../../component/common/SubmitBtn";
 import PermissionsCheckbox from "../../../component/common/PermissionCheckbox";
-// import { createUser } from "../api/userService";
+import { useCreateUser } from "../hooks/useCreateUser";
+import toast from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { closePopup } from "../../../reducer/popupSlice";
+import { useGetUsers } from "../hooks/useGetUsers";
+import { triggerRefresh } from "../../../reducer/userSlice";
+
 
 const UserForm = () => {
+
+
+  const {submitUser,loading}=useCreateUser();
+  const dispatch=useDispatch()
   // Form state
   const [email, setEmail] = useState("");
   const [userName, setUsername] = useState("");
@@ -35,19 +45,28 @@ const UserForm = () => {
       userName,
       password,
       role: userRole,
-      permissions,
+      permissions:['UPDATE', 'READ', 'WRITE', 'DELETE'],
     };
 
     console.log("Form Data:", formData);
     
 
   try{
-      const response=await createUser(formData);
+      const response=await submitUser(formData);
       console.log(response);
+
+
+      if(response?.status===201){
+        toast.success("Create User Success");
+        dispatch(triggerRefresh());
+      }
       
   }catch(e){
     console.error(e)
     
+  }finally{
+    dispatch(closePopup(true));
+ 
   }
     
   };
@@ -58,7 +77,7 @@ const UserForm = () => {
       onSubmit={handleSubmit}
     >
       <CustomInput
-        type="text"
+        type="email"
         placeholder="Enter email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
@@ -81,9 +100,9 @@ const UserForm = () => {
       />
       {errors.role && <span className="text-red-500 text-sm">{errors.role}</span>}
 
-      <PermissionsCheckbox values={permissions} onChange={setPermissions} />
+      {/* <PermissionsCheckbox values={permissions} onChange={setPermissions} /> */}
 
-      <SubmitBtn name="Create" className="py-2.5" />
+      <SubmitBtn  loading={loading} name="Create" className="py-2.5" />
     </form>
   );
 };

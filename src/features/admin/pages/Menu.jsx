@@ -97,7 +97,8 @@ const categories = [
         onChange={(e) => setKeyword(e.target.value)}
         placeholder="Search..."
       />
-        <CustomDropdown placeholder={"Select Category"} value={categoryId} onChange={(value)=>setCategoryId(value)} options={categories}  />
+        <CustomDropdown placeholder={"Select Category"} value={categoryId} onChange={(value)=>setCategoryId(value)}
+         options={categories}  />
       </div>
 
       <MenuList 

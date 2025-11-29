@@ -17,7 +17,10 @@ export const API_ENDPOINTS={
   INVENTORY:"/admin/inventory",
   GET_CATEGORY:"/admin/category",
   UPLOAD:"/admin/menu/image-upload/",
-  DELETE_MENU:"/admin/menu/"
+  DELETE_MENU:"/admin/menu/",
+  GET_INVENTORY:"/admin/inventory",
+  USER:"/admin/user/register",
+  GET_USERS:"/admin/user"
 
 }
 

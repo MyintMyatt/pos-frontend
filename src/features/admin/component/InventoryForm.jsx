@@ -6,6 +6,8 @@ import { SubmitBtn } from "../../../component/common/SubmitBtn";
 import CustomDropdown from "../../../component/common/CustomDropdown";
 import CustomInput from "../../../component/common/CustomInput";
 import toast from "react-hot-toast";
+import { closePopup } from "../../../reducer/popupSlice";
+import { triggerRefresh } from "../../../reducer/inventorySlice";
 
 const InventoryForm = () => {
   const dispatch = useDispatch();
@@ -15,6 +17,10 @@ const InventoryForm = () => {
 
   const allCategories = categories?.data || [];
   const allMenu = useSelector((state) => state.menu.menu);
+
+
+
+  
 
   const CategoryOptions = allCategories.map((category) => ({
     value: category.categoryId,
@@ -42,6 +48,18 @@ const InventoryForm = () => {
   const filteredMenu = allMenu
     .filter((menu) => menu.category.categoryId === formData.category)
     .map((menu) => ({ value: menu.menuId, label: menu.menuName }));
+
+
+
+ console.log(filteredMenu);
+ 
+
+   const curQty=allMenu.find(menu=>menu.menuId===formData.menu);
+
+
+   console.log("FROM",formData.menu);
+   
+    
 
   useEffect(() => {
     const selectedMenu = allMenu.find(
@@ -75,6 +93,11 @@ const InventoryForm = () => {
     };
 
 
+
+    console.log(filteredMenu);
+    
+console.log(filteredMenu.map((menu)=>menu.menuName===formData.menu));
+
     console.log(payload);
     
 console.log("UPDATE...");
@@ -83,12 +106,17 @@ console.log("UPDATE...");
       console.log("HER");
       
 
-      await submitInventory(payload);
-
-      if(data){ toast.success("Update Success");}
+     const data= await submitInventory(payload);
+     console.log(data);
      
+
+
+      if(data===200){ toast.success("Update Success");}
+      dispatch(triggerRefresh())
     } catch (error) {
       toast.error("Update Failed");
+    }finally{
+      dispatch(closePopup())
     }
   };
 
@@ -106,6 +134,15 @@ console.log("UPDATE...");
         options={filteredMenu}
         value={formData.menu}
         onChange={(val) => handleChange("menu", val)}
+      />
+
+
+      <CustomInput
+        disabled
+        placeholder="Current Stock"
+        // options={filteredMenu}
+       value={curQty?.inventory.quantity}
+        // onChange={(val) => handleChange("menu", val)}
       />
 
       <div className="flex w-full gap-x-3">
@@ -128,7 +165,7 @@ console.log("UPDATE...");
         />
       </div>
 
-      <SubmitBtn type="submit" name="UPDATE" className="py-2" />
+      <SubmitBtn loading={loading} type="submit" name="UPDATE" className="py-2" />
     </form>
   );
 };

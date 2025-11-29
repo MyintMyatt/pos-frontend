@@ -12,7 +12,6 @@ export const useMenu = () => {
 
     try {
       const response = await CreateMenu(form);
-
       if (!response || (response.status !== 200 && response.status !== 201)) {
         toast.error("Failed to create menu");
         return null;

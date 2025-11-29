@@ -9,3 +9,14 @@ export const inventory = async (form) => {
     throw error;
   }
 };
+
+
+
+export const getAllInventory=async()=>{
+  try {
+    const response=await apiClient.get(API_ENDPOINTS.GET_INVENTORY);
+    return response.data
+  } catch (error) {
+    throw error
+  }
+}
